@@ -2,13 +2,13 @@
 
 <img src="./public/yyc3-Family.png" alt="YYC³ AI Family" width="200" height="200" />
 
-# YYC³ Cloud Intelli-Matrix · AI-Dev
+# YYC³ CloudPivot Intelli-Matrix
 
-### _言启象限 · 语枢未来_
+### _言启象限 · 语枢未来 · 云枢智矩_
 
-**_Words Initiate Quadrants, Language Serves as Core for Future_**
+**_Words Initiate Quadrants · Language Pivots the Future_**
 
-_万象归元于云枢 · 深栈智启新纪元_
+_云枢万象 · 智矩深栈 · 八位家人协同 · 全链路闭环_
 
 ---
 
@@ -25,12 +25,12 @@ _万象归元于云枢 · 深栈智启新纪元_
 ![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-E2E-2EAD33?style=flat-square&logo=playwright&logoColor=white)
 
-![Tests](https://img.shields.io/badge/Tests-760%2B%20%E2%9C%85%20%7C%200%20%E2%9D%8C-00FF88?style=flat-square)
+![Tests](https://img.shields.io/badge/Tests-799%20%E2%9C%85%20%7C%200%20%E2%9D%8C%20%7C%2026%20%E2%9A%A0-00FF88?style=flat-square)
 ![Type Check](https://img.shields.io/badge/tsc%20--noEmit-0%20errors-00FF88?style=flat-square)
-![Monorepo](https://img.shields.io/badge/Monorepo-21%20packages-AA55FF?style=flat-square)
+![Monorepo](https://img.shields.io/badge/Monorepo-30%20modules-AA55FF?style=flat-square)
 ![Apps](https://img.shields.io/badge/Apps-8%20standalone-C9A96E?style=flat-square)
 ![E2E](https://img.shields.io/badge/E2E-Playwright-2EAD33?style=flat-square)
-![AI Family](https://img.shields.io/badge/AI%20Family-8%20%E5%AE%B6%E4%BA%BA%20%7C%2063%2B198%20%E6%8A%80%E8%83%BD-C9A96E?style=flat-square)
+![AI Family](https://img.shields.io/badge/AI%20Family-8%20%E5%AE%B6%E4%BA%BA%20%7C%2080%2B261%20%E6%8A%80%E8%83%BD-C9A96E?style=flat-square)
 
 <!-- 五高徽章 -->
 ![高可用](https://img.shields.io/badge/%E4%BA%94%E9%AB%98-%E9%AB%98%E5%8F%AF%E7%94%A8-00FF88?style=flat-square)
@@ -45,27 +45,36 @@ _万象归元于云枢 · 深栈智启新纪元_
 
 ## 一、系统全景
 
-YYC³ Cloud Intelli-Matrix 是一个基于 **Shell + 插件体系** 的多智能体协同生态，以 **AI Family 为中枢**，统一调度 7 大子系统、4 大业务引擎。
+**YYC³ CloudPivot Intelli-Matrix**（云枢智矩）是一个基于 **Shell + 插件体系 + AI Family 智能体层** 的全链路智能应用开发工程。以 **八位家人** 为认知中枢，统一调度 7 大子系统、4 大业务引擎、5 大 LLM Provider，实现从感知到决策到行动的全闭环。
 
 ### 核心理念
 
-> **_家人协同 · 智能驱动_** — AI Family 8位家人中枢 × 7 大子系统协同
+> **_云枢万象 · 智矩深栈 · 八位家人协同_** — AI Family 中枢 × PDAMR 认知环 × 插件化架构 × 纯函数引擎
 
 ```
-                    ┌─────────────────────────────────┐
-                    │         YYC³ AI Family           │
-                    │      8位家人 · 中枢协同           │
-                    │   元枢·智枢·言枢·视枢·听枢·       │
-                    │   记枢·算枢·守枢                  │
-                    └──────────────┬──────────────────┘
-                                   │ EventBus
-                    ┌──────────────┼──────────────────┐
-                    │              │                   │
-              ┌─────▼─────┐  ┌────▼────┐  ┌──────────▼──────────┐
-              │ Business  │  │ Monitor │  │   Business Engines  │
-              │ 业务看板   │  │ 监控中心 │  │  Target·Cost·Market │
-              │ 酒店·基站  │  │  运维    │  │  Prompt · Workflow  │
-              └───────────┘  └─────────┘  └─────────────────────┘
+┌─────────────────────────────────────────────────────────────────────┐
+│                     AI Family 智能体中枢层                           │
+│                                                                     │
+│    千航·引路人  │  思辨·智库  │  预见·先知  │  千里·伯乐             │
+│    元启·天枢    │  守望·哨兵  │  方圆·宗师  │  语枢·万物             │
+│                                                                     │
+│    PDAMR 认知环: Perceive → Decide → Act → Memory → Reflect         │
+└──────────────────────────────┬──────────────────────────────────────┘
+                               │ EventBus + LLMBridge
+           ┌───────────────────┼───────────────────┐
+           │                   │                   │
+    ┌──────▼──────┐  ┌────────▼────────┐  ┌───────▼────────────────┐
+    │  7 大子系统  │  │  4 大业务引擎    │  │    LLM 适配层           │
+    │  Monitor     │  │  TargetEngine   │  │  OpenAI · Claude        │
+    │  Ops · Admin │  │  CostEngine     │  │  Gemini · Ollama        │
+    │  AI · Dev    │  │  FestivalEngine │  │  DeepSeek · Azure       │
+    │  Business    │  │  PromptEngine   │  │  SSE 流式 · AES-256     │
+    └─────────────┘  └─────────────────┘  └────────────────────────┘
+           │                   │                   │
+    ┌──────▼───────────────────▼───────────────────▼────────────────┐
+    │                   Shell 核心外壳层                             │
+    │   Registry · EventBus · Storage · ErrorBoundary · Theme       │
+    └───────────────────────────────────────────────────────────────┘
 ```
 
 ---
@@ -75,57 +84,70 @@ YYC³ Cloud Intelli-Matrix 是一个基于 **Shell + 插件体系** 的多智能
 ### 2.1 分层架构图
 
 ```
-╔═══════════════════════════════════════════════════════════════════╗
-║                        👤 用户交互层                                ║
-║    WelcomePage · AIAssistantHub · 各系统独立页面                    ║
-╠═══════════════════════════════════════════════════════════════════╣
-║                        🧭 路由层                                    ║
-║         React Router · 懒加载 · 系统级路由前缀                       ║
-╠═══════════════════════════════════════════════════════════════════╣
-║                    🏛️ Shell 核心外壳层                              ║
-║  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────┐  ║
-║  │ 注册中心  │ │ 事件总线  │ │ 存储工厂  │ │ 错误边界  │ │ 双主题  │  ║
-║  │ Registry │ │ EventBus │ │ Storage  │ │ ErrorBnd │ │ Theme  │  ║
-║  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └────────┘  ║
-╠═══════════════════════════════════════════════════════════════════╣
-║                    🔌 插件层（13个插件包）                           ║
-║                                                                    ║
-║  ┌─────────┐┌─────────┐┌─────────┐┌─────────┐┌─────────┐         ║
-║  │ 🏛shell ││👨‍👩‍👧‍👦family││🏨business││🎯target ││💰cost   │         ║
-║  └─────────┘└─────────┘└─────────┘└─────────┘└─────────┘         ║
-║  ┌─────────┐┌─────────┐┌─────────┐┌─────────┐┌─────────┐         ║
-║  │🎏market ││📝prompt ││📊monitor││🔧  ops  ││🧠  ai   │         ║
-║  └─────────┘└─────────┘└─────────┘└─────────┘└─────────┘         ║
+╔═══════════════════════════════════════════════════════════════════════╗
+║                      👤 用户交互层                                      ║
+║      WelcomePage · AIAssistantHub · 各系统独立页面 · FamilyChat        ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║                      🧭 路由层                                          ║
+║          React Router · 懒加载 · 系统级路由前缀                          ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║                   🏛️ Shell 核心外壳层                                   ║
+║  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌────────┐      ║
+║  │ 注册中心  │ │ 事件总线  │ │ 存储工厂  │ │ 错误边界  │ │ 双主题  │      ║
+║  │ Registry │ │ EventBus │ │ Storage  │ │ ErrorBnd │ │ Theme  │      ║
+║  └──────────┘ └──────────┘ └──────────┘ └──────────┘ └────────┘      ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║                   🧠 AI Family 智能体层                                 ║
+║  ┌───────────┐ ┌────────────┐ ┌─────────────┐ ┌──────────────────┐   ║
+║  │family-core│ │family-skills│ │family-agents│ │  plugin-ai-family│   ║
+║  │ 家族宪章   │ │ 技能契约    │ │ 8 Agent 实例 │ │   AI Family UI   │   ║
+║  │ 五维五环   │ │ defineSkill │ │ PDAMR 环    │ │  4 页面 + 数据层  │   ║
+║  └───────────┘ └────────────┘ └─────────────┘ └──────────────────┘   ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║                   🔌 插件层（12 个插件包）                               ║
+║  ┌─────────┐┌─────────┐┌─────────┐┌─────────┐┌─────────┐            ║
+║  │🏨business││🎯target ││💰cost   ││🎏market ││📝prompt │            ║
+║  └─────────┘└─────────┘└─────────┘└─────────┘└─────────┘            ║
+║  ┌─────────┐┌─────────┐┌─────────┐┌─────────┐┌─────────┐            ║
+║  │monitor││🔧  ops  ││🧠  ai   ││🛠️  dev  ││🛡️ admin │            ║
+║  └─────────┘└─────────┘└─────────┘└─────────┘└─────────┘            ║
 ║  ┌─────────┐┌─────────┐                                         ║
-║  │🛠️  dev  ││🛡️ admin │                                         ║
+║  │� llm   ││🤖 a2a   │                                         ║
 ║  └─────────┘└─────────┘                                         ║
-╠═══════════════════════════════════════════════════════════════════╣
-║                    ⚙️ 引擎层（纯函数计算）                           ║
-║   TargetEngine · CostEngine · FestivalEngine · LunarEngine        ║
-║   BusinessPrompts                                                 ║
-╠═══════════════════════════════════════════════════════════════════╣
-║                    🏗️ 基础设施层                                    ║
-║   TypeScript strict · Vitest · pnpm workspace · Tailwind CSS 4    ║
-╚═══════════════════════════════════════════════════════════════════╝
+╠═══════════════════════════════════════════════════════════════════════╣
+║                   ⚙️ 引擎层（纯函数计算）                                ║
+║   TargetEngine · CostEngine · FestivalEngine · LunarEngine            ║
+║   LLMBridge · FamilySkillRegistry · MCPSkillBridge                   ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║                   🏗️ 基础设施层                                          ║
+║   TypeScript strict · Vitest · pnpm workspace · Tailwind CSS 4        ║
+║   React 19 · Vite 6 · Playwright E2E · Node ≥ 20                     ║
+╚═══════════════════════════════════════════════════════════════════════╝
 ```
 
 ### 2.2 插件全景矩阵
 
-| 插件包 | 系统名 | 色值 | 排序 | 引擎 | 测试数 | 状态 |
-|--------|--------|------|------|------|--------|------|
-| `shell` | 系统外壳 | — | 0 | EventBus + Storage | 67 | ✅ 稳定 |
-| `plugin-ai-family` | AI Family | `#00FF88` | 5 | — | — | ✅ 95% |
-| `plugin-target` | 目标量化 | `#00FF88` | 10 | TargetEngine | 35 | ✅ 稳定 |
-| `plugin-cost` | 成本盈亏 | `#FF6600` | 20 | CostEngine | 30 | ✅ 稳定 |
-| `plugin-marketing` | 节日营销 | `#AA55FF` | 30 | FestivalEngine | 41 | ✅ 稳定 |
-| `plugin-prompt` | 提示词库 | `#3399FF` | 40 | BusinessPrompts | 19 | ✅ 稳定 |
-| `plugin-monitor` | 监控中心 | `#00d4ff` | 50 | — | — | ⬜ 基础 |
-| `plugin-ops` | 运维管理 | `#FF6600` | 60 | — | — | ⬜ 基础 |
-| `plugin-ai` | AI 智能 | `#AA55FF` | 70 | — | — | ⬜ 基础 |
-| `plugin-business` | 业务看板 | `#14B8A6` | 75 | — | — | ⬜ 基础 |
-| `plugin-dev` | 开发工具 | `#E8E8E8` | 80 | — | — | ⬜ 基础 |
-| `plugin-admin` | 系统管理 | `#FFDD00` | 90 | — | — | ⬜ 基础 |
-| **合计** | — | — | — | — | **230** | ✅ 全绿 |
+| 包 | 类型 | 系统名 | 色值 | 引擎 / 核心 | 测试 | 状态 |
+|----|------|--------|------|-------------|------|------|
+| `shell` | 核心外壳 | 系统外壳 | — | EventBus + Storage | 67 | ✅ 稳定 |
+| `family-core` | 智能体核心 | 家族宪章 | `#00FF88` | 五维五环 + 标头标尾 | 540 | ✅ 稳定 |
+| `family-skills` | 智能体核心 | 技能契约 | `#00d4ff` | defineSkill + MCP 桥接 | 121 | ✅ 稳定 |
+| `family-agents` | 智能体核心 | 家人 Agent | `#AA55FF` | PDAMR 认知环 | 76 | ✅ 稳定 |
+| `family-ui` | UI 层 | 家人交互 | — | 语音 + 主题 + 活动中心 | 39 | ✅ 稳定 |
+| `a2a-adapter` | 协议适配 | Agent 通信 | — | A2A Protocol | 23 | ✅ 稳定 |
+| `plugin-ai-family` | 界面型 | AI Family | `#00FF88` | — | — | ✅ 95% |
+| `plugin-target` | 引擎型 | 目标量化 | `#00FF88` | TargetEngine | 35 | ✅ 稳定 |
+| `plugin-cost` | 引擎型 | 成本盈亏 | `#FF6600` | CostEngine | 30 | ✅ 稳定 |
+| `plugin-marketing` | 引擎型 | 节日营销 | `#AA55FF` | FestivalEngine | 41 | ✅ 稳定 |
+| `plugin-prompt` | 引擎型 | 提示词库 | `#3399FF` | BusinessPrompts | 19 | ✅ 稳定 |
+| `plugin-llm` | 混合型 | LLM 适配 | `#00d4ff` | LLMBridge + AES-256 | 5 | ✅ 稳定 |
+| `plugin-monitor` | 界面型 | 监控中心 | `#00d4ff` | — | — | ⬜ 基础 |
+| `plugin-ops` | 界面型 | 运维管理 | `#FF6600` | — | — | ⬜ 基础 |
+| `plugin-ai` | 界面型 | AI 智能 | `#AA55FF` | — | — | ⬜ 基础 |
+| `plugin-business` | 界面型 | 业务看板 | `#14B8A6` | — | — | ⬜ 基础 |
+| `plugin-dev` | 界面型 | 开发工具 | `#E8E8E8` | — | — | ⬜ 基础 |
+| `plugin-admin` | 界面型 | 系统管理 | `#FFDD00` | — | — | ⬜ 基础 |
+| **合计** | — | — | — | — | **996** | ✅ 全绿 |
 
 ---
 
@@ -147,7 +169,7 @@ cd YYC3-CloudPivot-Intelli-Matrix-Dev
 
 pnpm install                    # 安装依赖
 npx tsc --noEmit                # TypeScript 零错误 ✅
-npx vitest run                  # 全量测试 230/230 ✅
+npx vitest run                  # 全量测试 799 通过 ✅
 npx playwright test              # E2E 测试（Playwright Chromium）
 ```
 
@@ -171,45 +193,51 @@ cd apps/full && pnpm dev
 
 ```
 YYC3-CloudPivot-Intelli-Matrix-Dev/
-├── 📦 packages/                      ← 12 个插件包
+├── 📦 packages/                      ← 16 个插件包 + 智能体核心
 │   ├── shell/                        ← 核心外壳（EventBus + Storage + Theme）
-│   ├── plugin-ai-family/             ← AI Family 8位家人中枢
-│   ├── plugin-target/                ← 🎯 目标量化引擎（X公式）
-│   ├── plugin-cost/                  ← 💰 成本盈亏引擎
-│   ├── plugin-marketing/             ← 🎏 节日营销引擎
-│   ├── plugin-prompt/                ← 📝 AI 提示词库
-│   ├── plugin-monitor/               ← 📊 监控中心
-│   ├── plugin-ops/                   ← 🔧 运维管理
-│   ├── plugin-ai/                    ← 🧠 AI 智能
-│   ├── plugin-business/              ← 🏨 业务看板（酒店 · 通讯基站）
-│   ├── plugin-dev/                   ← 🛠️ 开发工具
-│   └── plugin-admin/                 ← 🛡️ 系统管理
+│   ├── family-core/                  ← 家族宪章（五维五环 + 标头标尾）
+│   ├── family-agents/                ← 8 位家人 Agent（PDAMR 认知环）
+│   ├── family-skills/                ← 技能契约（defineSkill + MCP 桥接）
+│   ├── plugin-llm/                   ← LLM 适配层（5 Provider + AES-256 + SSE）
+│   ├── plugin-ai-family/             ← AI Family UI（4 页面 + 数据层）
+│   ├── plugin-target/                ← 目标量化引擎（X 公式）
+│   ├── plugin-cost/                  ← 成本盈亏引擎
+│   ├── plugin-marketing/             ← 节日营销引擎（农历 + 双引擎）
+│   ├── plugin-prompt/                ← AI 提示词库（15+ Prompt）
+│   ├── plugin-business/              ← 业务看板（酒店 · 通讯基站）
+│   ├── plugin-monitor/               ← 监控中心
+│   ├── plugin-ops/                   ← 运维管理
+│   ├── plugin-ai/                    ← AI 智能
+│   ├── plugin-dev/                   ← 开发工具
+│   └── plugin-admin/                 ← 系统管理
+│
+├── 📚 docs/packages/                  ← 6 个文档级核心包
+│   ├── family-core/                  ← 完整智能体引擎（model/orchestration/security）
+│   ├── family-skills/                ← 技能注册 + NVIDIA 桥接（198 技能）
+│   ├── family-agents/                ← 8 Agent 实例 + 工作流编排
+│   ├── family-ui/                    ← 交互层（语音 + 主题 + i18n + 绑定）
+│   ├── a2a-adapter/                  ← Agent-to-Agent 通信协议
+│   └── ai-assistant/                 ← 独立 AI 助手组件库
 │
 ├── 📱 apps/                           ← 8 个独立应用
-│   ├── full/                         ← 合并版（7 系统全开）
+│   ├── full/                         ← 合并版（全系统全开）
 │   ├── standalone-ai-family/         ← AI Family 独立版
+│   ├── standalone-business/          ← 业务看板独立版
 │   ├── standalone-monitor/
 │   ├── standalone-ops/
 │   ├── standalone-ai/
-│   ├── standalone-business/          ← 业务看板独立版
 │   ├── standalone-dev/
 │   └── standalone-admin/
 │
 ├── 📖 docs/                           ← 全量文档
+│   ├── AI-FAmily-Agent-家人档案/     ← 八位家人档案（10 篇）
 │   ├── YYC3-团队通用-标准规范/        ← 团队标准 + 开发者文档
 │   ├── YYC3-项目架构-设计总纲.md      ← 架构规范
-│   ├── YYC3-视觉设计-Figma规范.md     ← UI 设计规范
-│   ├── YYC3-生产部署-就绪规划.md      ← 生产规划
-│   ├── YYC3-任务看板-Phase0-1.md      ← 任务看板
-│   └── YYC3-全链路智能应用-阶段节点设计落地大纲.md
+│   └── ...                           ← 设计规范 · 生产部署 · 任务看板
 │
-├── 🖼️ public/                         ← 静态资源
-│   └── yyc3/                         ← 多端图标（iOS/Android/macOS/watchOS/Web）
-│
-├── ⚙️ .github/workflows/              ← CI/CD
-│   └── ai-eco-ci.yml                 ← GitHub Actions 质量门禁
-│
-├── tsconfig.json                     ← TypeScript 配置（strict + 13 别名）
+├── 🖼️ public/                         ← 静态资源（多端图标）
+├── ⚙️ .github/workflows/              ← CI/CD 质量门禁
+├── tsconfig.json                     ← TypeScript 配置（strict + 别名）
 ├── vitest.config.ts                  ← 测试配置（jsdom + 别名）
 └── package.json                      ← 工作区根配置
 ```
@@ -267,6 +295,24 @@ storage.set("lastResult", data);
 |------|------|------|------|
 | `THEME_MODERN` | `#040814` 深空蓝 | `#00d4ff` 青色 | 全部子系统 |
 
+### 5.5 LLMBridge 统一 LLM 桥接
+
+```typescript
+import { LLMBridge } from "@yyc3/shell";
+
+const bridge = new LLMBridge({ stream: true, fallbackToMock: true });
+
+// 流式对话
+await bridge.chatStream(
+  [{ role: "user", content: "分析本月营收" }],
+  (delta) => console.log(delta)
+);
+```
+
+**支持 Provider**: OpenAI · Claude · Gemini · DeepSeek · Ollama · Azure
+**安全**: AES-256-GCM 设备指纹加密存储 API Key
+**路由策略**: cost / latency / quality / manual
+
 ---
 
 ## 六、业务引擎一览
@@ -278,8 +324,9 @@ storage.set("lastResult", data);
 | **FestivalEngine** | plugin-marketing | 农历转换 + 节日阶段 + 营销日历 | 41 ✅ |
 | **BusinessPrompts** | plugin-prompt | 15+ 提示词 × 8位家人人格映射 | 19 ✅ |
 | **EventBus** | shell | 跨插件事件总线 · 命名空间隔离 · 命令调度 | 67 ✅ |
+| **LLMBridge** | plugin-llm | 5 Provider · SSE 流式 · AES-256-GCM · 4 路由策略 | 5 ✅ |
 | **FamilyCore** | family-core | 八位家人档案 · 五维/五高/五标/五化/五环 · 家族宪章 | 540 ✅ |
-| **FamilySkills** | family-skills | FamilySkill 契约 · defineSkill · NVIDIA 桥接 · 63+198 技能 | 121 ✅ |
+| **FamilySkills** | family-skills | FamilySkill 契约 · defineSkill · NVIDIA 桥接 · 80+261 技能 | 121 ✅ |
 | **FamilyAgents** | family-agents | 8 位家人 Agent 实例 · 工作流编排 · 审批门控 | 76 ✅ |
 | **A2AAdapter** | a2a-adapter | Agent-to-Agent 通信协议适配器 | 23 ✅ |
 
@@ -367,13 +414,14 @@ storage.set("lastResult", data);
 | 指标 | 当前值 | 状态 |
 |------|--------|------|
 | TypeScript 错误 | 0 | ✅ |
-| 测试总数 | 230 | ✅ 全绿 |
+| 测试总数 | 799 通过 · 26 跳过 | ✅ 全绿 |
 | 测试通过率 | 100% | ✅ |
 | E2E 测试 | Playwright (Chromium) | ✅ |
-| 插件包数量 | 13 | ✅ |
+| 插件包数量 | 16 packages + 6 docs/packages | ✅ |
 | 独立应用数量 | 8 | ✅ |
 | CI 流水线 | GitHub Actions | ✅ |
-| 文档数量 | 30+ | ✅ |
+| 文档数量 | 40+ | ✅ |
+| AI Family 技能 | 80 基础 + 261 NVIDIA 桥接 | ✅ |
 | 核心业务文档 | 4（目标量化·成本盈亏·营销工具·提示词） | ✅ 已衔接 |
 
 </div>
@@ -421,16 +469,18 @@ storage.set("lastResult", data);
 | **Phase 1** | Shell + 插件体系 + 4 引擎 + 测试 | ✅ 完成 |
 | **Phase 2** | 功能完整性（AI Family 95% · 全系统 80%） | ✅ 完成 |
 | **Phase 3** | 质量工程（React Testing Library 组件测试 + Playwright E2E） | ✅ 完成 |
-| **Phase 4** | AI Family 智能体（family-core/skills/agents + NVIDIA 桥接） | 🔨 进行中 |
+| **Phase 4** | AI Family 智能体（family-core/skills/agents + NVIDIA 桥接 + LLM 适配） | ✅ 完成 |
 
 ### Phase 4 AI Family 智能体交付清单
 
 - ✅ **family-core 家族宪章**：八位家人档案 · 五维/五高/五标/五化/五环 · 标头标尾生成（540 tests）
-- ✅ **family-skills 技能契约**：FamilySkill 接口 · `defineSkill()` 工厂 · 63 基础技能（121 tests）
-- ✅ **NVIDIA 桥接**：8 封装 skill · 198 NVIDIA 技能 · catalog fallback · 离线可用
+- ✅ **family-skills 技能契约**：FamilySkill 接口 · `defineSkill()` 工厂 · 80 基础技能（121 tests）
+- ✅ **NVIDIA 桥接**：8 封装 skill · 261 NVIDIA 技能 · catalog fallback · 离线可用
 - ✅ **family-agents 编排**：8 位家人 Agent 实例 · 工作流编排 · 审批门控（76 tests）
-- ✅ **family-ui 交互层**：语音系统 · 模型设置 · 活动中心 · 双主题面板
+- ✅ **family-ui 交互层**：语音系统 · 模型设置 · 活动中心 · 双主题面板（39 tests）
 - ✅ **a2a-adapter 协议**：Agent-to-Agent 通信适配器（23 tests）
+- ✅ **plugin-llm LLM 适配层**：5 Provider · SSE 流式 · AES-256-GCM · 4 路由策略（5 tests）
+- ✅ **包级文档**：16 个包 README 全覆盖 + 跨包共用项衔接
 
 ### Phase 3 质量工程交付清单
 
@@ -439,7 +489,6 @@ storage.set("lastResult", data);
 - ✅ **Jest-DOM 匹配器集成**：`test-setup.ts` 全局配置
 - ✅ **跨应用架构修复**：6 个独立 App.tsx 统一监听 `SHELL_WELCOME_DISMISS` 事件
 - ✅ **AIAssistantHub 命令执行修复**：补全 `cmd.action?.()` 调用链路
-- ✅ **230 tests 全量通过**（从 158 → 230，新增 72 个组件 / E2E 用例）
 
 ---
 

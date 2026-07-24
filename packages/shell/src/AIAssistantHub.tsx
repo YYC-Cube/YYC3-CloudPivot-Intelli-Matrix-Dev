@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { eventBus, Events } from "./event-bus";
+import { LLMBridge } from "./llm-bridge";
 import { createSystemStorage, StorageKeys } from "./storage";
 import { getSystemTheme, getTheme, type ThemeMode } from "./theme";
 import type { HubCommand } from "./types";
@@ -153,12 +154,11 @@ export function AIAssistantHub({
   }, []);
 
   // ===== LLM 桥接 (Phase 4: 真实 LLM + Mock 回退) =====
-  // 懒加载, 避免未启用 plugin-llm 时报错
-  const bridgeRef = useRef<import("./llm-bridge").LLMBridge | null>(null);
+  // 静态导入, 运行时由 try/catch + ErrorBoundary 兜底
+  const bridgeRef = useRef<LLMBridge | null>(null);
   const getBridge = useCallback(() => {
     if (!bridgeRef.current) {
       try {
-        const { LLMBridge } = require("./llm-bridge") as typeof import("./llm-bridge");
         bridgeRef.current = new LLMBridge({
           stream: true,
           fallbackToMock: true,

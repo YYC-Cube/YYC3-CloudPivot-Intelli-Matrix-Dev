@@ -1,0 +1,64 @@
+# ============================================================
+# YYC³ AI 生态系统 - Docker Compose
+# 用法: docker compose up -d
+# 默认端口: http://localhost:8080
+# ============================================================
+version: "3.9"
+
+services:
+  yyc3-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        NODE_ENV: production
+    image: yyc3-ai-ecosystem:latest
+    container_name: yyc3-web
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+      - VITE_APP_ENV=production
+    env_file:
+      - .env.docker
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:80/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - yyc3-net
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: "0.5"
+
+  # ===== 可选: 反向代理 (Traefik) =====
+  # 取消注释启用 HTTPS + 自动证书
+  # traefik:
+  #   image: traefik:v3.2
+  #   command:
+  #     - --providers.docker=true
+  #     - --providers.docker.exposedbydefault=false
+  #     - --entrypoints.web.address=:80
+  #     - --entrypoints.websecure.address=:443
+  #     - --certificatesresolvers.le.acme.tlschallenge=true
+  #     - --certificatesresolvers.le.acme.email=your@email.com
+  #     - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - ./letsencrypt:/letsencrypt
+  #   networks:
+  #     - yyc3-net
+  #   labels:
+  #     - traefik.enable=true
+
+networks:
+  yyc3-net:
+    driver: bridge

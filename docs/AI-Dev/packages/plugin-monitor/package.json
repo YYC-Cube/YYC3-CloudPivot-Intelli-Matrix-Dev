@@ -1,0 +1,7 @@
+{
+  "name": "@yyc3/plugin-monitor",
+  "version": "1.0.0",
+  "description": "监控中心 — 数据监控/告警/巡查",
+  "main": "src/index.ts",
+  "peerDependencies": { "react": "^18||^19", "lucide-react": "^0.500", "@yyc3/shell": "workspace:*" }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@yyc3/plugin-admin",
+  "version": "1.0.0",
+  "description": "系统管理 — 设置/用户/安全",
+  "main": "src/index.ts",
+  "peerDependencies": { "react": "^18||^19", "lucide-react": "^0.500", "@yyc3/shell": "workspace:*" }
+}

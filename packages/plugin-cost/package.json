@@ -1,0 +1,11 @@
+{
+  "name": "@yyc3/plugin-cost",
+  "version": "1.0.0",
+  "description": "成本盈亏引擎 — 动态成本核算 + 盈亏分析 + 敏感性测算",
+  "main": "src/index.ts",
+  "peerDependencies": {
+    "react": "^18||^19",
+    "lucide-react": "^0.500",
+    "@yyc3/shell": "workspace:*"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@yyc3/plugin-prompt",
+  "version": "1.0.0",
+  "description": "AI提示词库 — 15个业务Prompt模板 + 8位家人映射",
+  "main": "src/index.ts",
+  "peerDependencies": {
+    "react": "^18||^19",
+    "lucide-react": "^0.500",
+    "@yyc3/shell": "workspace:*"
+  }
+}

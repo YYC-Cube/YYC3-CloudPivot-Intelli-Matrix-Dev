@@ -1,0 +1,24 @@
+{
+  "name": "@yyc3/family-skills",
+  "version": "0.1.0",
+  "description": "YYC³ AI Family Skills 生态 — MCP 兼容技能注册与执行",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@yyc3/family-agents": "workspace:*",
+    "@yyc3/family-core": "workspace:*",
+    "js-yaml": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^25.9.2",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.8"
+  }
+}

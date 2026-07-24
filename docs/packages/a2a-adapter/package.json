@@ -1,0 +1,21 @@
+{
+  "name": "@yyc3/a2a-adapter",
+  "version": "0.1.0",
+  "description": "YYC³ Agent-to-Agent (A2A) 协议适配器 — Agent Cards + Task 协议",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "eventemitter3": "^5.0.4"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.8"
+  }
+}

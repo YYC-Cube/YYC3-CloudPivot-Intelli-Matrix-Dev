@@ -1,0 +1,7 @@
+{
+  "name": "@yyc3/plugin-ai",
+  "version": "1.0.0",
+  "description": "AI 智能 — 决策/模型/诊断",
+  "main": "src/index.ts",
+  "peerDependencies": { "react": "^18||^19", "lucide-react": "^0.500", "@yyc3/shell": "workspace:*" }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@yyc3/plugin-business",
+  "version": "1.0.0",
+  "description": "业务空间 — 智慧酒店/通讯基站",
+  "main": "src/index.ts",
+  "peerDependencies": { "react": "^18||^19", "lucide-react": "^0.500", "@yyc3/shell": "workspace:*" }
+}

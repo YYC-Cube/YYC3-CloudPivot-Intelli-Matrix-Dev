@@ -1,0 +1,7 @@
+{
+  "name": "@yyc3/family-core",
+  "version": "0.1.0",
+  "description": "YYC³ AI Family 核心引擎 — 家族宪章 · 五维评估 · 五环自进化（唯一真相源）",
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}

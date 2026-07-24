@@ -1,0 +1,23 @@
+# YYC³ Docker Ignore
+node_modules
+**/node_modules
+**/dist
+**/build
+.git
+.github
+.vscode
+.idea
+*.log
+npm-debug.log*
+.DS_Store
+coverage
+coverage-reports
+playwright-report
+test-results
+.env
+.env.local
+.env.*.local
+.letsencrypt
+README*.md
+docs/
+e2e/

@@ -1,0 +1,19 @@
+packages:
+  # docs/packages/* 为 family-* 包的权威实现（含完整引擎+架构常量）
+  # 排除根 packages/family-* 以避免 workspace 命名冲突
+  - "docs/packages/*"
+  - "apps/*"
+  - "packages/*"
+  - "!packages/family-core"
+  - "!packages/family-agents"
+  - "!packages/family-skills"
+
+# pnpm 11+ 构建脚本白名单（替代旧 pnpm.onlyBuiltDependencies）
+onlyBuiltDependencies:
+  - "@swc/core"
+  - esbuild
+
+# pnpm 11+ 统一依赖覆盖（替代旧 package.json pnpm.overrides）
+overrides:
+  react: "^19.0.0"
+  react-dom: "^19.0.0"

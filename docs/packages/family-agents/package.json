@@ -1,0 +1,22 @@
+{
+  "name": "@yyc3/family-agents",
+  "version": "0.1.0",
+  "description": "YYC³ AI Family 8位家人 Agent — 人格化智能体",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@yyc3/family-core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "@yyc3/family-skills": "workspace:*",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.8"
+  }
+}

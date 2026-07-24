@@ -1,0 +1,7 @@
+{
+  "name": "@yyc3/plugin-ops",
+  "version": "1.0.0",
+  "description": "运维管理 — 操作中心/文件/数据库",
+  "main": "src/index.ts",
+  "peerDependencies": { "react": "^18||^19", "lucide-react": "^0.500", "@yyc3/shell": "workspace:*" }
+}

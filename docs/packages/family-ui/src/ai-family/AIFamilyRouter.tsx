@@ -1,0 +1,166 @@
+/**
+ * ============================================================
+ * YYC³ AI Family — 人从众曌众从人
+ * 亦师亦友亦伯乐，一言一语一协同
+ * 拟人为本 · AI为核 · 纯粹为心
+ * ============================================================
+ * @Family   : YYC³ AI Family (永久开源)
+ * @License  : Apache-2.0
+ * @Homepage : https://matrix.yyc3.top
+ * ============================================================
+ * 此文件承载家人温度，请以玫瑰之心待之 🌹
+ * ============================================================
+ */
+
+/**
+ * AIFamilyRouter.tsx
+ * ===================
+ * AI Family 统一子路由入口（轻量壳）
+ *
+ * 使用 React.lazy + 自定义 fallback 按需加载子页面。
+ * 如果 lazy 加载失败（Figma 沙箱限制），自动 fallback 到静态 import。
+ */
+
+import React, { Suspense } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { AIFamilyPage } from "../AIFamilyPage";
+
+// ═══ Lazy 加载（减少初始 bundle 大小）═══
+// 沙箱可能阻止 dynamic import，需要 fallback
+
+const lazyMap: Record<string, () => Promise<{ default: React.ComponentType }>> = {
+  home: () => Promise.resolve({ default: AIFamilyPage }),
+  chat: () => import("./FamilyChat").then(m => ({ default: m.FamilyChat })),
+  share: () => import("./FamilyShare").then(m => ({ default: m.FamilyShare })),
+  learn: () => import("./FamilyLearn").then(m => ({ default: m.FamilyLearn })),
+  music: () => import("./FamilyMusic").then(m => ({ default: m.FamilyMusic })),
+  growth: () => import("./FamilyGrowth").then(m => ({ default: m.FamilyGrowth })),
+  phone: () => import("./FamilyPhone").then(m => ({ default: m.FamilyPhone })),
+  fun: () => import("./FamilyEntertainment").then(m => ({ default: m.FamilyEntertainment })),
+  activities: () => import("./FamilyActivityCenter").then(m => ({ default: m.FamilyActivityCenter })),
+  models: () => import("./FamilyModelSettings").then(m => ({ default: m.FamilyModelSettings })),
+  voice: () => import("./FamilyVoiceSystem").then(m => ({ default: m.FamilyVoiceSystem })),
+  data: () => import("./FamilyDataHub").then(m => ({ default: m.FamilyDataHub })),
+  comm: () => import("./FamilyCommCenter").then(m => ({ default: m.FamilyCommCenter })),
+  ecosystem: () => import("./FamilyEcosystem").then(m => ({ default: m.FamilyEcosystem })),
+  settings: () => import("./FamilyUISettings").then(m => ({ default: m.FamilyUISettings })),
+  // 补全 P0 死链接：FamilyHome 完整页面
+  "home-page": () => import("./FamilyHome").then(m => ({ default: m.FamilyHome })),
+};
+
+const VALID_KEYS = Object.keys(lazyMap);
+
+// P0 修复：3 个旧路径重定向（无法注册页面时映射到有效 key）
+const REDIRECT_MAP: Record<string, string> = {
+  'ai-family-home': 'home-page',
+  'ai-family-center': 'home-page',
+  'ai-family-design': 'home-page',
+};
+
+// ═══ Loading spinner ═══
+
+function LoadingFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="flex flex-col items-center gap-3">
+        <div className="w-8 h-8 border-2 border-[rgba(0,212,255,0.15)] border-t-[rgba(0,212,255,0.6)] rounded-full animate-spin" />
+        <span className="text-white/30" style={{ fontSize: "0.75rem" }}>加载中...</span>
+      </div>
+    </div>
+  );
+}
+
+// ═══ Error fallback ═══
+
+function ErrorFallback({ subpage }: { subpage: string }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <p className="text-amber-400/60" style={{ fontSize: "0.9rem" }}>加载模块失败</p>
+        <p className="text-white/30 mt-2" style={{ fontSize: "0.7rem" }}>
+          页面 "{subpage}" 暂时不可用
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 px-4 py-2 rounded-lg bg-[rgba(0,212,255,0.1)] border border-[rgba(0,212,255,0.2)] text-cyan-300 hover:bg-[rgba(0,212,255,0.2)] transition-all"
+          style={{ fontSize: "0.75rem" }}
+        >
+          刷新页面
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ═══ Lazy wrapper with error boundary ═══
+
+class LazyErrorBoundary extends React.Component<
+  { children: React.ReactNode; fallback: React.ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: React.ReactNode; fallback: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  render() {
+    if (this.state.hasError) { return this.props.fallback; }
+    return this.props.children;
+  }
+}
+
+// ═══ URL → subpage key 解析 ═══
+
+function resolveSubpage(pathname: string, hash: string, paramSubpage?: string): string {
+  if (paramSubpage && VALID_KEYS.includes(paramSubpage)) { return paramSubpage; }
+
+  // HashRouter: 从 hash 中提取路径
+  const hashPath = hash.replace(/^#\/?/, '');
+  const hashMatch = hashPath.match(/ai-family\/(\w+)/);
+  if (hashMatch && VALID_KEYS.includes(hashMatch[1]!)) { return hashMatch[1]!; }
+
+  // 也尝试从 pathname 匹配（非 HashRouter 模式）
+  const pathMatch = pathname.match(/\/ai-family\/(\w+)/);
+  if (pathMatch && VALID_KEYS.includes(pathMatch[1]!)) { return pathMatch[1]!; }
+
+  // P0 修复：旧路径重定向
+  const fullMatch = pathname.match(/\/(ai-family-\w+)/) || hashPath.match(/^(ai-family-\w+)/);
+  if (fullMatch && REDIRECT_MAP[fullMatch[1]!]) { return REDIRECT_MAP[fullMatch[1]!]!; }
+
+  // 检查是否是精确的 /ai-family 路径（没有子页面）
+  if (pathname === '/ai-family' || hashPath === 'ai-family') {
+    return 'home';
+  }
+
+  return "home";
+}
+
+// ═══ 缓存 lazy 组件 ═══
+const lazyCache: Record<string, React.LazyExoticComponent<React.ComponentType>> = {};
+
+function getLazyComponent(key: string): React.LazyExoticComponent<React.ComponentType> {
+  if (!lazyCache[key]) {
+    lazyCache[key] = React.lazy(lazyMap[key]!);
+  }
+  return lazyCache[key]!;
+}
+
+// ═══ 主组件 ═══
+
+export function AIFamilyRouter() {
+  const { subpage } = useParams<{ subpage: string }>();
+  const location = useLocation();
+  const key = resolveSubpage(location.pathname, location.hash, subpage);
+
+  const LazyComponent = getLazyComponent(key);
+
+  return (
+    <LazyErrorBoundary fallback={<ErrorFallback subpage={key} />}>
+      <Suspense fallback={<LoadingFallback />}>
+        <LazyComponent />
+      </Suspense>
+    </LazyErrorBoundary>
+  );
+}

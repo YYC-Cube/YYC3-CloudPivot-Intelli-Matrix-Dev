@@ -1,0 +1,11 @@
+{
+  "name": "@yyc3/plugin-target",
+  "version": "1.0.0",
+  "description": "目标量化引擎 — 年度营收X公式 + 三阶段拆分 + 月度节点",
+  "main": "src/index.ts",
+  "peerDependencies": {
+    "react": "^18||^19",
+    "lucide-react": "^0.500",
+    "@yyc3/shell": "workspace:*"
+  }
+}

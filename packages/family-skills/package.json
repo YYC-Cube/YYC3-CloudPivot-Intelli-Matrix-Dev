@@ -1,0 +1,11 @@
+{
+  "name": "@yyc3/family-skills",
+  "version": "0.1.0",
+  "description": "YYC³ AI Family Skills 生态 — MCP 兼容技能注册与执行（40+ 技能）",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "peerDependencies": {
+    "@yyc3/family-agents": "workspace:*",
+    "@yyc3/family-core": "workspace:*"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "@yyc3/plugin-marketing",
+  "version": "1.0.0",
+  "description": "节日营销引擎 — 6类节日聚合 + 农历转换 + 营销动作触发",
+  "main": "src/index.ts",
+  "peerDependencies": {
+    "react": "^18||^19",
+    "lucide-react": "^0.500",
+    "@yyc3/shell": "workspace:*"
+  }
+}

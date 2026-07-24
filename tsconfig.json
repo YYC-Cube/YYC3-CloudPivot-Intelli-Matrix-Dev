@@ -1,0 +1,129 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "types": [
+      "vitest/globals",
+      "node"
+    ],
+    "paths": {
+      "@yyc3/shell": [
+        "./packages/shell/src"
+      ],
+      "@yyc3/shell/*": [
+        "./packages/shell/src/*"
+      ],
+      "@yyc3/plugin-ai-family": [
+        "./packages/plugin-ai-family/src"
+      ],
+      "@yyc3/plugin-ai-family/*": [
+        "./packages/plugin-ai-family/src/*"
+      ],
+      "@yyc3/plugin-monitor": [
+        "./packages/plugin-monitor/src"
+      ],
+      "@yyc3/plugin-monitor/*": [
+        "./packages/plugin-monitor/src/*"
+      ],
+      "@yyc3/plugin-ops": [
+        "./packages/plugin-ops/src"
+      ],
+      "@yyc3/plugin-ops/*": [
+        "./packages/plugin-ops/src/*"
+      ],
+      "@yyc3/plugin-ai": [
+        "./packages/plugin-ai/src"
+      ],
+      "@yyc3/plugin-ai/*": [
+        "./packages/plugin-ai/src/*"
+      ],
+      "@yyc3/plugin-business": [
+        "./packages/plugin-business/src"
+      ],
+      "@yyc3/plugin-business/*": [
+        "./packages/plugin-business/src/*"
+      ],
+      "@yyc3/plugin-dev": [
+        "./packages/plugin-dev/src"
+      ],
+      "@yyc3/plugin-dev/*": [
+        "./packages/plugin-dev/src/*"
+      ],
+      "@yyc3/plugin-admin": [
+        "./packages/plugin-admin/src"
+      ],
+      "@yyc3/plugin-admin/*": [
+        "./packages/plugin-admin/src/*"
+      ],
+      "@yyc3/plugin-target": [
+        "./packages/plugin-target/src"
+      ],
+      "@yyc3/plugin-target/*": [
+        "./packages/plugin-target/src/*"
+      ],
+      "@yyc3/plugin-cost": [
+        "./packages/plugin-cost/src"
+      ],
+      "@yyc3/plugin-cost/*": [
+        "./packages/plugin-cost/src/*"
+      ],
+      "@yyc3/plugin-marketing": [
+        "./packages/plugin-marketing/src"
+      ],
+      "@yyc3/plugin-marketing/*": [
+        "./packages/plugin-marketing/src/*"
+      ],
+      "@yyc3/plugin-prompt": [
+        "./packages/plugin-prompt/src"
+      ],
+      "@yyc3/plugin-prompt/*": [
+        "./packages/plugin-prompt/src/*"
+      ],
+      "@yyc3/plugin-llm": [
+        "./packages/plugin-llm/src"
+      ],
+      "@yyc3/plugin-llm/*": [
+        "./packages/plugin-llm/src/*"
+      ],
+      "@yyc3/family-core": [
+        "./packages/family-core/src"
+      ],
+      "@yyc3/family-core/*": [
+        "./packages/family-core/src/*"
+      ],
+      "@yyc3/family-agents": [
+        "./packages/family-agents/src"
+      ],
+      "@yyc3/family-agents/*": [
+        "./packages/family-agents/src/*"
+      ],
+      "@yyc3/family-skills": [
+        "./packages/family-skills/src"
+      ],
+      "@yyc3/family-skills/*": [
+        "./packages/family-skills/src/*"
+      ]
+    }
+  },
+  "include": [
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "apps/**/*.ts",
+    "apps/**/*.tsx",
+    "api/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "e2e",
+    "playwright-report",
+    "test-results"
+  ]
+}

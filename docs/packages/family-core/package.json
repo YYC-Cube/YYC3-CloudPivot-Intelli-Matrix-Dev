@@ -1,0 +1,31 @@
+{
+  "name": "@yyc3/family-core",
+  "version": "0.1.0",
+  "description": "YYC³ AI Family 核心引擎 — 编排、模型路由、消息总线",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "eventemitter3": "^5.0.4",
+    "ioredis": "^5.11.1"
+  },
+  "peerDependencies": {
+    "@opentelemetry/api": "^1.9.0"
+  },
+  "peerDependenciesMeta": {
+    "@opentelemetry/api": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2",
+    "typescript": "^5.9.0",
+    "vitest": "^4.1.8"
+  }
+}

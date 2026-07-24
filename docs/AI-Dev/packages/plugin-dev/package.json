@@ -1,0 +1,7 @@
+{
+  "name": "@yyc3/plugin-dev",
+  "version": "1.0.0",
+  "description": "开发工具 — 设计系统/终端/IDE",
+  "main": "src/index.ts",
+  "peerDependencies": { "react": "^18||^19", "lucide-react": "^0.500", "@yyc3/shell": "workspace:*" }
+}

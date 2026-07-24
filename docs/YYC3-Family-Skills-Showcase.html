@@ -1,0 +1,2699 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>YYC³ AI Family Skills 中心</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='18' font-weight='700' font-family='sans-serif' fill='%23fff'%3EY%3C/text%3E%3C/svg%3E"
+    />
+    <style>
+      /* ═══════════════════════════════════════════
+   CSS Variables & Theme
+   ═══════════════════════════════════════════ */
+      :root {
+        --bg: #0a0a0f;
+        --bg2: #12121a;
+        --bg3: #1a1a2e;
+        --surface: rgba(255, 255, 255, 0.03);
+        --surface-hover: rgba(255, 255, 255, 0.06);
+        --border: rgba(255, 255, 255, 0.08);
+        --border-hover: rgba(255, 255, 255, 0.15);
+        --text: #f1f1f6;
+        --text2: rgba(255, 255, 255, 0.65);
+        --text3: rgba(255, 255, 255, 0.35);
+        --accent-v: #8b5cf6;
+        --accent-c: #06b6d4;
+        --accent-e: #22c55e;
+        --accent-r: #ef4444;
+        --accent-o: #f59e0b;
+        --radius: 14px;
+        --radius-sm: 8px;
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+        --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', 'JetBrains Mono', 'Consolas', monospace;
+      }
+      .light {
+        --bg: #f5f5f0;
+        --bg2: #e8e8e3;
+        --bg3: #ddd;
+        --surface: rgba(0, 0, 0, 0.02);
+        --surface-hover: rgba(0, 0, 0, 0.05);
+        --border: rgba(0, 0, 0, 0.08);
+        --border-hover: rgba(0, 0, 0, 0.15);
+        --text: #1a1a2e;
+        --text2: rgba(0, 0, 0, 0.55);
+        --text3: rgba(0, 0, 0, 0.3);
+        --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+      }
+      ::selection {
+        background: rgba(139, 92, 246, 0.3);
+        color: #fff;
+      }
+
+      /* ═══ Layout ═══ */
+      .app {
+        display: flex;
+        min-height: 100vh;
+      }
+
+      /* ═══ Sidebar ═══ */
+      .sidebar {
+        width: 280px;
+        flex-shrink: 0;
+        background: var(--bg2);
+        border-right: 1px solid var(--border);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 100;
+        transition: transform 0.3s ease;
+      }
+      .sidebar.hidden {
+        transform: translateX(-100%);
+      }
+      .sb-header {
+        padding: 20px 20px 16px;
+        border-bottom: 1px solid var(--border);
+      }
+      .sb-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+      }
+      .sb-logo-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--accent-v), var(--accent-c));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .sb-logo-text {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text);
+      }
+      .sb-logo-sub {
+        font-size: 10px;
+        color: var(--text3);
+        letter-spacing: 1px;
+      }
+      .sb-search {
+        margin: 12px 16px;
+        padding: 8px 12px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+      }
+      .sb-search:focus-within {
+        border-color: var(--accent-v);
+      }
+      .sb-search input {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-size: 13px;
+      }
+      .sb-search input::placeholder {
+        color: var(--text3);
+      }
+      .sb-search svg {
+        width: 14px;
+        height: 14px;
+        color: var(--text3);
+        flex-shrink: 0;
+      }
+
+      /* ═══ Sidebar Progress ═══ */
+      .sb-progress {
+        margin: 0 16px 12px;
+        padding: 10px 12px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .sb-progress-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .sb-progress-label {
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        color: var(--text3);
+      }
+      .sb-progress-pct {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent-v);
+      }
+      .sb-progress-bar {
+        height: 4px;
+        border-radius: 2px;
+        background: var(--border);
+        overflow: hidden;
+        margin-bottom: 4px;
+      }
+      .sb-progress-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: linear-gradient(90deg, var(--accent-v), var(--accent-c));
+        transition: width 0.6s ease;
+      }
+      .sb-progress-count {
+        font-size: 10px;
+        color: var(--text3);
+      }
+      .sb-nav {
+        flex: 1;
+        overflow-y: auto;
+        padding: 8px 12px 20px;
+      }
+      .sb-nav::-webkit-scrollbar {
+        width: 4px;
+      }
+      .sb-nav::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 2px;
+      }
+      .sb-group-title {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text3);
+        padding: 16px 8px 6px;
+      }
+      .sb-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 7px 10px;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: 0.15s;
+        text-decoration: none;
+        color: var(--text2);
+        font-size: 13px;
+        margin-bottom: 2px;
+      }
+      .sb-item:hover {
+        background: var(--surface);
+        color: var(--text);
+      }
+      .sb-item.active {
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+        font-weight: 600;
+      }
+      .sb-item-icon {
+        font-size: 14px;
+        width: 20px;
+        text-align: center;
+        flex-shrink: 0;
+      }
+      .sb-item-text {
+        flex: 1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .sb-item-badge {
+        font-size: 9px;
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-weight: 700;
+        flex-shrink: 0;
+      }
+
+      /* ═══ Main ═══ */
+      .main {
+        flex: 1;
+        margin-left: 280px;
+        min-height: 100vh;
+        transition: margin 0.3s ease;
+      }
+      .main.full {
+        margin-left: 0;
+      }
+
+      /* ═══ Topbar ═══ */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(10, 10, 15, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+      }
+      .light .topbar {
+        background: rgba(245, 245, 240, 0.8);
+      }
+      .topbar-title {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .topbar-subtitle {
+        font-size: 11px;
+        color: var(--text3);
+      }
+      .btn-menu {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-menu:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .btn-menu svg {
+        width: 16px;
+        height: 16px;
+      }
+      .topbar-spacer {
+        flex: 1;
+      }
+      .topbar-time {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: var(--text3);
+        font-family: var(--font-mono);
+      }
+      .tt-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent-e);
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      /* Share button */
+      .btn-share {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-share:hover {
+        background: var(--surface-hover);
+        color: var(--accent-v);
+        border-color: rgba(139, 92, 246, 0.3);
+      }
+      .topbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .btn-theme {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-theme:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .btn-theme svg {
+        width: 16px;
+        height: 16px;
+      }
+      .progress-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .btn-action {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        color: var(--text2);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.2s;
+      }
+      .btn-action:hover {
+        background: var(--surface-hover);
+        color: var(--text);
+      }
+      .btn-action.btn-danger:hover {
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
+        border-color: rgba(239, 68, 68, 0.3);
+      }
+
+      /* ═══ Dashboard ═══ */
+      .dashboard {
+        padding: 24px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .dash-header {
+        margin-bottom: 32px;
+      }
+      .dash-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        background: rgba(139, 92, 246, 0.12);
+        color: var(--accent-v);
+        font-size: 11px;
+        font-weight: 600;
+        margin-bottom: 8px;
+      }
+      .dash-title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 6px;
+        line-height: 1.2;
+      }
+      .dash-desc {
+        font-size: 14px;
+        color: var(--text2);
+        max-width: 600px;
+        line-height: 1.5;
+      }
+      .dash-stats {
+        display: flex;
+        gap: 16px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .stat-card {
+        padding: 12px 18px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .stat-num {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .stat-label {
+        font-size: 11px;
+        color: var(--text2);
+      }
+
+      /* ═══ Filter bar ═══ */
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .filter-btn {
+        padding: 6px 14px;
+        border-radius: 20px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text2);
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-weight: 500;
+      }
+      .filter-btn:hover {
+        border-color: var(--border-hover);
+        color: var(--text);
+      }
+      .filter-btn.active {
+        background: var(--accent-v);
+        color: #fff;
+        border-color: var(--accent-v);
+      }
+      .filter-btn[data-cat='all'].active {
+        background: var(--text);
+        color: var(--bg);
+        border-color: var(--text);
+      }
+
+      /* ═══ Category section ═══ */
+      .cat-section {
+        margin-bottom: 36px;
+      }
+      .cat-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 14px;
+      }
+      .cat-icon {
+        font-size: 20px;
+      }
+      .cat-name {
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .cat-count {
+        font-size: 12px;
+        color: var(--text3);
+      }
+      .cat-line {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      /* ═══ Card grid ═══ */
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 14px;
+      }
+      .guide-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.4s ease both;
+      }
+      .guide-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow);
+      }
+      .guide-card.hidden {
+        display: none;
+      }
+      .guide-card .gc-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .gc-head {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .gc-icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .gc-info {
+        flex: 1;
+        min-width: 0;
+      }
+      .gc-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 2px;
+        line-height: 1.3;
+      }
+      .gc-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .gc-tag {
+        font-size: 10px;
+        padding: 1px 7px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+      .gc-tag-diff-easy {
+        background: rgba(34, 197, 94, 0.15);
+        color: var(--accent-e);
+      }
+      .gc-tag-diff-medium {
+        background: rgba(245, 158, 11, 0.15);
+        color: var(--accent-o);
+      }
+      .gc-tag-diff-hard {
+        background: rgba(239, 68, 68, 0.15);
+        color: var(--accent-r);
+      }
+      .gc-desc {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.5;
+        margin-bottom: 10px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .gc-footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 11px;
+        color: var(--text3);
+      }
+      .gc-time {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .gc-owner {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-weight: 600;
+      }
+      .gc-new-badge {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-size: 9px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: linear-gradient(135deg, var(--accent-v), var(--accent-c));
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+      }
+
+      /* ═══ Skill detail view ═══ */
+      .skill-detail {
+        display: none;
+        padding: 24px;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      .skill-detail.active {
+        display: block;
+      }
+      .sd-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        color: var(--text2);
+        cursor: pointer;
+        margin-bottom: 20px;
+        padding: 6px 12px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+        transition: 0.2s;
+        text-decoration: none;
+      }
+      .sd-back:hover {
+        color: var(--text);
+        border-color: var(--border-hover);
+      }
+      .sd-header {
+        margin-bottom: 24px;
+      }
+      .sd-icon-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+      .sd-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+      }
+      .sd-title {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .sd-subtitle {
+        font-size: 13px;
+        color: var(--text3);
+        font-family: var(--font-mono);
+      }
+      .sd-desc {
+        font-size: 14px;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+      .sd-tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .sd-section-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .sd-params {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+      .sd-param {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: var(--radius-sm);
+        background: var(--surface);
+        border: 1px solid var(--border);
+      }
+      .sd-param-name {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--accent-c);
+        font-family: var(--font-mono);
+        flex-shrink: 0;
+        min-width: 100px;
+      }
+      .sd-param-desc {
+        font-size: 12px;
+        color: var(--text2);
+        flex: 1;
+      }
+      .sd-param-type {
+        font-size: 10px;
+        padding: 1px 6px;
+        border-radius: 4px;
+        background: var(--border);
+        color: var(--text3);
+        font-family: var(--font-mono);
+      }
+      .sd-code-block {
+        background: var(--bg3);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 14px 16px;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        line-height: 1.6;
+        overflow-x: auto;
+        margin-bottom: 24px;
+        color: var(--text2);
+      }
+      .sd-code-block .keyword {
+        color: var(--accent-v);
+      }
+      .sd-code-block .string {
+        color: var(--accent-e);
+      }
+      .sd-code-block .comment {
+        color: var(--text3);
+      }
+
+      /* ═══ Family member cards ═══ */
+      .member-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 14px;
+        margin-bottom: 36px;
+      }
+      .member-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        transition: all 0.25s ease;
+        position: relative;
+        overflow: hidden;
+        animation: fadeUp 0.4s ease both;
+      }
+      .member-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--border-hover);
+        box-shadow: var(--shadow);
+      }
+      .member-card .mc-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+      }
+      .mc-head {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .mc-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+      }
+      .mc-name {
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .mc-role {
+        font-size: 11px;
+        color: var(--text3);
+      }
+      .mc-motto {
+        font-size: 12px;
+        color: var(--text2);
+        line-height: 1.5;
+        font-style: italic;
+        margin-bottom: 12px;
+      }
+      .mc-stats {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .mc-stat {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--text3);
+      }
+      .mc-stat strong {
+        color: var(--text);
+        font-size: 14px;
+      }
+      .mc-skills {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+      }
+      .mc-skill-tag {
+        font-size: 10px;
+        padding: 2px 7px;
+        border-radius: 4px;
+        background: var(--border);
+        color: var(--text2);
+        font-family: var(--font-mono);
+      }
+
+      /* ═══ Loading ═══ */
+      .loading {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 60px;
+        color: var(--text3);
+      }
+      .spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid var(--border);
+        border-top-color: var(--accent-v);
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-bottom: 12px;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ═══ Mobile ═══ */
+      .sb-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99;
+        backdrop-filter: blur(2px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .sb-overlay.active {
+        display: block;
+        opacity: 1;
+      }
+
+      /* ── 平板适配 (≤1024px) ── */
+      @media (max-width: 1024px) {
+        .sidebar {
+          width: 240px;
+        }
+        .main {
+          margin-left: 240px;
+        }
+        .card-grid {
+          grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        }
+        .dash-stats {
+          gap: 10px;
+        }
+        .stat-card {
+          padding: 10px 14px;
+        }
+      }
+
+      /* ── 移动端适配 (≤768px) ── */
+      @media (max-width: 768px) {
+        .sidebar {
+          transform: translateX(-100%);
+          width: 280px;
+          box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
+        }
+        .sidebar.show {
+          transform: translateX(0);
+        }
+        .main {
+          margin-left: 0;
+        }
+        .main.full {
+          margin-left: 0;
+        }
+
+        /* 顶栏优化 */
+        .topbar {
+          padding: 10px 14px;
+          gap: 8px;
+        }
+        .btn-menu {
+          width: 38px;
+          height: 38px;
+          flex-shrink: 0;
+        }
+        .btn-menu svg {
+          width: 18px;
+          height: 18px;
+        }
+        .topbar-title {
+          font-size: 14px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 140px;
+        }
+        .topbar-subtitle {
+          display: none;
+        }
+
+        /* 移动端隐藏时钟，腾出空间 */
+        .topbar-time {
+          display: none;
+        }
+        .topbar-actions {
+          gap: 6px;
+        }
+        .btn-share {
+          width: 38px;
+          height: 38px;
+        }
+        .progress-actions {
+          gap: 6px;
+        }
+        .btn-action {
+          width: 34px;
+          height: 34px;
+        }
+        .btn-theme {
+          width: 34px;
+          height: 34px;
+        }
+
+        /* Dashboard 间距 */
+        .dashboard {
+          padding: 16px 14px;
+        }
+        .dash-header {
+          margin-bottom: 20px;
+        }
+        .dash-title {
+          font-size: 22px;
+        }
+        .dash-desc {
+          font-size: 13px;
+        }
+        .dash-stats {
+          gap: 8px;
+          margin-top: 16px;
+        }
+        .stat-card {
+          padding: 8px 12px;
+          flex: 1;
+          min-width: 0;
+          justify-content: center;
+        }
+        .stat-num {
+          font-size: 16px;
+        }
+        .stat-label {
+          font-size: 10px;
+        }
+
+        /* 筛选栏横向滚动 */
+        .filter-bar {
+          overflow-x: auto;
+          flex-wrap: nowrap;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding-bottom: 4px;
+          margin-bottom: 16px;
+        }
+        .filter-bar::-webkit-scrollbar {
+          display: none;
+        }
+        .filter-btn {
+          flex-shrink: 0;
+          padding: 7px 14px;
+          font-size: 12px;
+        }
+
+        /* 分类标题 */
+        .cat-section {
+          margin-bottom: 24px;
+        }
+        .cat-header {
+          margin-bottom: 10px;
+        }
+        .cat-name {
+          font-size: 15px;
+        }
+
+        /* 卡片单列 */
+        .card-grid {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        .guide-card {
+          padding: 14px;
+        }
+        .gc-icon {
+          width: 36px;
+          height: 36px;
+        }
+        .gc-title {
+          font-size: 13px;
+        }
+        .gc-desc {
+          font-size: 12px;
+          -webkit-line-clamp: 3;
+        }
+
+        /* 成员卡片单列 */
+        .member-grid {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        .member-card {
+          padding: 14px;
+        }
+
+        /* 技能详情优化 */
+        .skill-detail {
+          padding: 16px 14px;
+        }
+        .sd-icon {
+          width: 48px;
+          height: 48px;
+          font-size: 24px;
+        }
+        .sd-title {
+          font-size: 18px;
+        }
+        .sd-param {
+          flex-direction: column;
+          gap: 4px;
+          align-items: flex-start;
+        }
+        .sd-param-name {
+          min-width: 0;
+        }
+        .sd-code-block {
+          font-size: 11px;
+          padding: 12px;
+        }
+
+        /* 搜索框加大触控区 */
+        .sb-search {
+          padding: 10px 14px;
+        }
+        .sb-search input {
+          font-size: 16px; /* iOS 防缩放 */
+        }
+
+        /* 导航项加大触控区 */
+        .sb-item {
+          padding: 11px 12px;
+          font-size: 14px;
+        }
+        .sb-item-icon {
+          font-size: 16px;
+        }
+
+        /* 底部安全区适配 */
+        .sb-nav {
+          padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        }
+        .topbar {
+          padding-top: max(10px, env(safe-area-inset-top, 0px));
+        }
+      }
+
+      /* ── 小屏手机 (≤420px) ── */
+      @media (max-width: 420px) {
+        .dash-title {
+          font-size: 19px;
+        }
+        .dash-stats {
+          flex-wrap: wrap;
+        }
+        .stat-card {
+          flex: 1 1 calc(50% - 8px);
+          min-width: calc(50% - 8px);
+        }
+        .gc-head {
+          gap: 10px;
+        }
+        .gc-icon {
+          width: 32px;
+          height: 32px;
+          font-size: 16px;
+        }
+        .topbar-actions {
+          gap: 4px;
+        }
+        .progress-actions {
+          gap: 4px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <div class="sb-overlay" id="sbOverlay" onclick="toggleSidebar()"></div>
+
+      <aside class="sidebar" id="sidebar">
+        <div class="sb-header">
+          <a class="sb-logo" href="#" onclick="showDashboard()">
+            <div class="sb-logo-icon">Y</div>
+            <div>
+              <div class="sb-logo-text">YYC³ AI Family</div>
+              <div class="sb-logo-sub">Skills 中心 · v1.0</div>
+            </div>
+          </a>
+        </div>
+        <div class="sb-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" id="sbSearchInput" placeholder="搜索技能..." oninput="filterSidebar(this.value)" />
+        </div>
+        <div class="sb-progress">
+          <div class="sb-progress-header">
+            <span class="sb-progress-label">技能覆盖</span>
+            <span class="sb-progress-pct" id="sbProgressPct">100%</span>
+          </div>
+          <div class="sb-progress-bar">
+            <div class="sb-progress-fill" id="sbProgressFill" style="width: 100%"></div>
+          </div>
+          <div class="sb-progress-count" id="sbProgressCount">63 封装 + 198 NVIDIA 目录</div>
+        </div>
+        <nav class="sb-nav" id="sbNav"></nav>
+      </aside>
+
+      <div class="main" id="main">
+        <div class="topbar">
+          <button class="btn-menu" onclick="toggleSidebar()" aria-label="Menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </button>
+          <div>
+            <div class="topbar-title" id="topbarTitle">YYC³ AI Family Skills 中心</div>
+            <div class="topbar-subtitle" id="topbarSubtitle">8 位家人 · 63 封装技能 · 198 NVIDIA 目录</div>
+          </div>
+          <div class="topbar-spacer"></div>
+          <div class="topbar-time" id="topbarClock">
+            <span class="tt-dot"></span>
+            <span id="clockDisplay">--:--:--</span>
+          </div>
+          <div class="topbar-actions">
+            <button class="btn-share" onclick="sharePage()" title="分享当前页面">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3" />
+                <circle cx="6" cy="12" r="3" />
+                <circle cx="18" cy="19" r="3" />
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+              </svg>
+            </button>
+            <div class="progress-actions">
+              <button class="btn-action" onclick="downloadPage()" title="下载脱机版本">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+              </button>
+              <button class="btn-action" onclick="copyLink()" title="复制链接">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              </button>
+              <button class="btn-action btn-danger" onclick="toggleTheme()" title="切换主题">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard" id="dashboardView">
+          <div class="dash-header">
+            <div class="dash-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+              </svg>
+              <span>v1.0.0 · 构建通过</span>
+            </div>
+            <h1 class="dash-title">YYC³ AI Family Skills 中心</h1>
+            <p class="dash-desc">
+              八位家人 · 六十三封装技能 · 百九十八 NVIDIA 目录 — 覆盖
+              NLU、分析、预测、推荐、编排、安全、质量、创意全链路智能能力。
+            </p>
+            <div class="dash-stats" id="dashStats"></div>
+          </div>
+          <div class="filter-bar" id="filterBar"></div>
+          <div id="dashboardContent"></div>
+        </div>
+
+        <div class="skill-detail" id="skillDetail"></div>
+      </div>
+    </div>
+
+    <script>
+      /* ══════════════════════════════════════════════════
+   Family Member Data
+   ══════════════════════════════════════════════════ */
+      const MEMBERS = [
+        {
+          id: 'tianshu',
+          name: '元启·天枢',
+          role: '总指挥',
+          layer: 9,
+          layerName: '万象归元',
+          color: '#5e2c8a',
+          icon: '🧠',
+          motto: '我观全局之流转，调度万物以归元。',
+          catCount: 8,
+          nvCount: 22,
+        },
+        {
+          id: 'guardian',
+          name: '智云·守护',
+          role: '安全官',
+          layer: 8,
+          layerName: '智云守护',
+          color: '#2c3e50',
+          icon: '🛡️',
+          motto: '我于无声处警戒，御威胁于国门之外。',
+          catCount: 8,
+          nvCount: 10,
+        },
+        {
+          id: 'grandmaster',
+          name: '格物·宗师',
+          role: '质量官',
+          layer: 7,
+          layerName: '格物致知',
+          color: '#2e8b57',
+          icon: '📚',
+          motto: '我究万物之理，定标准以传世。',
+          catCount: 8,
+          nvCount: 9,
+        },
+        {
+          id: 'grace',
+          name: '创想·灵韵',
+          role: '创意官',
+          layer: 6,
+          layerName: '创想灵韵',
+          color: '#ff8c00',
+          icon: '🎨',
+          motto: '我以灵感为墨，绘就无限可能。',
+          catCount: 5,
+          nvCount: 63,
+        },
+        {
+          id: 'qianhang',
+          name: '言启·千行',
+          role: '导航员',
+          layer: 5,
+          layerName: '言启千行',
+          color: '#0088cc',
+          icon: '🧭',
+          motto: '我聆听万千言语，为您指引航向。',
+          catCount: 7,
+          nvCount: 2,
+        },
+        {
+          id: 'thinker',
+          name: '语枢·万物',
+          role: '思考者',
+          layer: 4,
+          layerName: '语枢万物',
+          color: '#c0c0c0',
+          icon: '🤔',
+          motto: '我于喧嚣数据中，沉思，而后揭示真理。',
+          catCount: 7,
+          nvCount: 38,
+        },
+        {
+          id: 'prophet',
+          name: '预见·先知',
+          role: '预言家',
+          layer: 3,
+          layerName: '预见先知',
+          color: '#4b0082',
+          icon: '🔮',
+          motto: '我观过往之脉络，预见未来之可能。',
+          catCount: 6,
+          nvCount: 25,
+        },
+        {
+          id: 'bole',
+          name: '千里·伯乐',
+          role: '推荐官',
+          layer: 2,
+          layerName: '千里伯乐',
+          color: '#dc143c',
+          icon: '🎯',
+          motto: '我知您之所需，荐您之所未识。',
+          catCount: 6,
+          nvCount: 3,
+        },
+      ];
+
+      /* ══════════════════════════════════════════════════
+   Skill Data — 63 Encapsulated Skills
+   ══════════════════════════════════════════════════ */
+      const SKILLS = [
+        /* ── NLU (qianhang) ── */
+        {
+          id: 'qianhang:emotion-detect',
+          cat: 'nlu',
+          owner: 'qianhang',
+          icon: '😢',
+          diff: 'medium',
+          isNew: false,
+          desc: '情感检测：从文本中识别喜怒哀乐等多维情感',
+          params: [{ name: 'text', type: 'string', required: true, desc: '待检测文本' }],
+        },
+        {
+          id: 'qianhang:intent-parse',
+          cat: 'nlu',
+          owner: 'qianhang',
+          icon: '🎯',
+          diff: 'medium',
+          isNew: false,
+          desc: '意图解析：将自然语言映射到结构化意图',
+          params: [{ name: 'text', type: 'string', required: true, desc: '用户输入' }],
+        },
+        {
+          id: 'qianhang:knowledge-graph',
+          cat: 'nlu',
+          owner: 'qianhang',
+          icon: '🕸️',
+          diff: 'hard',
+          isNew: false,
+          desc: '知识图谱构建：实体抽取与关系建模',
+          params: [{ name: 'documents', type: 'array', required: true, desc: '文档列表' }],
+        },
+        {
+          id: 'qianhang:multi-lang-nlu',
+          cat: 'nlu',
+          owner: 'qianhang',
+          icon: '🌍',
+          diff: 'medium',
+          isNew: false,
+          desc: '多语言 NLU：中英日韩等 20+ 语言理解',
+          params: [{ name: 'text', type: 'string', required: true, desc: '多语言文本' }],
+        },
+        {
+          id: 'qianhang:sentiment-analysis',
+          cat: 'nlu',
+          owner: 'qianhang',
+          icon: '📊',
+          diff: 'easy',
+          isNew: false,
+          desc: '情感分析：正面/负面/中性分类',
+          params: [{ name: 'text', type: 'string', required: true, desc: '待分析文本' }],
+        },
+        {
+          id: 'qianhang:intent-enrichment',
+          cat: 'nlu',
+          owner: 'qianhang',
+          icon: '✨',
+          diff: 'medium',
+          isNew: false,
+          exclusive: true,
+          desc: '意图增强（专属）：上下文补全 + 槽位填充',
+          params: [{ name: 'baseIntent', type: 'object', required: true, desc: '基础意图对象' }],
+        },
+        {
+          id: 'qianhang:dialogue-context',
+          cat: 'nlu',
+          owner: 'qianhang',
+          icon: '💬',
+          diff: 'medium',
+          isNew: false,
+          exclusive: true,
+          desc: '对话上下文（专属）：多轮对话状态追踪',
+          params: [{ name: 'messages', type: 'array', required: true, desc: '对话历史' }],
+        },
+
+        /* ── Analysis (thinker) ── */
+        {
+          id: 'thinker:deep-analysis',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '🔬',
+          diff: 'hard',
+          isNew: false,
+          desc: '深度分析：多维数据切片与根因挖掘',
+          params: [{ name: 'data', type: 'object', required: true, desc: '分析数据' }],
+        },
+        {
+          id: 'thinker:data-insight',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '💡',
+          diff: 'medium',
+          isNew: false,
+          desc: '数据洞察：自动发现趋势与异常模式',
+          params: [{ name: 'dataset', type: 'array', required: true, desc: '数据集' }],
+        },
+        {
+          id: 'thinker:comparative-analysis',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '⚖️',
+          diff: 'medium',
+          isNew: false,
+          desc: '比较分析：多方案/多维度对比评估',
+          params: [{ name: 'items', type: 'array', required: true, desc: '比较项列表' }],
+        },
+        {
+          id: 'thinker:revenue-analysis',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '💰',
+          diff: 'medium',
+          isNew: false,
+          desc: '营收分析：收入结构与增长趋势',
+          params: [{ name: 'financials', type: 'object', required: true, desc: '财务数据' }],
+        },
+        {
+          id: 'thinker:document-analysis',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '📄',
+          diff: 'medium',
+          isNew: true,
+          desc: '文档智能分析【新】：提取/比较/总结/分类四模式',
+          params: [
+            { name: 'documents', type: 'array', required: true, desc: '文档列表' },
+            { name: 'operation', type: 'string', required: true, desc: '操作模式: extract/compare/summarize/classify' },
+          ],
+        },
+        {
+          id: 'thinker:summary-generation',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '📝',
+          diff: 'medium',
+          isNew: true,
+          desc: '文本摘要【新】：抽取式/抽象式/要点式三策略',
+          params: [
+            { name: 'text', type: 'string', required: true, desc: '原文' },
+            { name: 'strategy', type: 'string', required: false, desc: 'extractive/abstractive/bullet' },
+          ],
+        },
+        {
+          id: 'thinker:causal-reasoning',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '🔗',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '因果推理（专属）：假设检验与因果图发现',
+          params: [{ name: 'hypothesis', type: 'string', required: true, desc: '因果假设' }],
+        },
+        {
+          id: 'thinker:knowledge-synthesis',
+          cat: 'analysis',
+          owner: 'thinker',
+          icon: '🧩',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '知识综合（专属）：跨源知识融合与冲突消解',
+          params: [{ name: 'sources', type: 'array', required: true, desc: '知识来源' }],
+        },
+
+        /* ── Prediction (prophet) ── */
+        {
+          id: 'prophet:lstm-prediction',
+          cat: 'prediction',
+          owner: 'prophet',
+          icon: '📈',
+          diff: 'hard',
+          isNew: false,
+          desc: 'LSTM 时序预测：长短期记忆网络',
+          params: [
+            { name: 'series', type: 'array', required: true, desc: '时间序列数据' },
+            { name: 'horizon', type: 'number', required: false, desc: '预测步长' },
+          ],
+        },
+        {
+          id: 'prophet:anomaly-detection',
+          cat: 'prediction',
+          owner: 'prophet',
+          icon: '🚨',
+          diff: 'medium',
+          isNew: false,
+          desc: '异常检测：统计/孤立森林/自编码器三模式',
+          params: [{ name: 'data', type: 'array', required: true, desc: '检测数据' }],
+        },
+        {
+          id: 'prophet:trend-forecast',
+          cat: 'prediction',
+          owner: 'prophet',
+          icon: '📉',
+          diff: 'medium',
+          isNew: false,
+          desc: '趋势预测：ARIMA + 季节性分解',
+          params: [{ name: 'series', type: 'array', required: true, desc: '历史数据' }],
+        },
+        {
+          id: 'prophet:probability-estimation',
+          cat: 'prediction',
+          owner: 'prophet',
+          icon: '🎲',
+          diff: 'medium',
+          isNew: false,
+          desc: '概率估计：贝叶斯推断与蒙特卡洛',
+          params: [{ name: 'events', type: 'array', required: true, desc: '事件列表' }],
+        },
+        {
+          id: 'prophet:proactive-advisory',
+          cat: 'prediction',
+          owner: 'prophet',
+          icon: '⚠️',
+          diff: 'medium',
+          isNew: true,
+          desc: '前瞻性建议【新】：风险容忍度加权 P0-P3 优先级',
+          params: [
+            { name: 'predictions', type: 'array', required: true, desc: '预测结果' },
+            { name: 'riskTolerance', type: 'string', required: false, desc: 'low/medium/high' },
+          ],
+        },
+        {
+          id: 'prophet:seasonal-forecast',
+          cat: 'prediction',
+          owner: 'prophet',
+          icon: '🗓️',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '季节性预测（专属）：周期模式识别',
+          params: [{ name: 'series', type: 'array', required: true, desc: '历史序列' }],
+        },
+        {
+          id: 'prophet:risk-assessment',
+          cat: 'prediction',
+          owner: 'prophet',
+          icon: '🔴',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '风险评估（专属）：多维度风险矩阵量化',
+          params: [{ name: 'scenarios', type: 'array', required: true, desc: '风险场景' }],
+        },
+
+        /* ── Recommendation (bole) ── */
+        {
+          id: 'bole:cold-start',
+          cat: 'recommendation',
+          owner: 'bole',
+          icon: '🧊',
+          diff: 'medium',
+          isNew: false,
+          desc: '冷启动策略：基于人口统计+流行度',
+          params: [{ name: 'userId', type: 'string', required: true, desc: '用户ID' }],
+        },
+        {
+          id: 'bole:personalize-render',
+          cat: 'recommendation',
+          owner: 'bole',
+          icon: '✨',
+          diff: 'medium',
+          isNew: false,
+          desc: '个性化渲染：动态 UI 适配',
+          params: [{ name: 'userProfile', type: 'object', required: true, desc: '用户画像' }],
+        },
+        {
+          id: 'bole:collaborative-filter',
+          cat: 'recommendation',
+          owner: 'bole',
+          icon: '👥',
+          diff: 'medium',
+          isNew: false,
+          desc: '协同过滤：用户-物品矩阵分解',
+          params: [{ name: 'userId', type: 'string', required: true, desc: '用户ID' }],
+        },
+        {
+          id: 'bole:diversity-ranking',
+          cat: 'recommendation',
+          owner: 'bole',
+          icon: '🌈',
+          diff: 'medium',
+          isNew: false,
+          desc: '多样性排序：MMR + 信息熵平衡',
+          params: [{ name: 'items', type: 'array', required: true, desc: '候选列表' }],
+        },
+        {
+          id: 'bole:content-recommendation',
+          cat: 'recommendation',
+          owner: 'bole',
+          icon: '🏷️',
+          diff: 'medium',
+          isNew: true,
+          desc: '基于内容推荐【新】：Jaccard标签+余弦特征',
+          params: [
+            { name: 'userPrefs', type: 'object', required: true, desc: '用户偏好' },
+            { name: 'items', type: 'array', required: true, desc: '候选物品' },
+          ],
+        },
+        {
+          id: 'bole:user-profiling',
+          cat: 'recommendation',
+          owner: 'bole',
+          icon: '👤',
+          diff: 'medium',
+          isNew: false,
+          exclusive: true,
+          desc: '用户画像（专属）：多维度标签构建',
+          params: [{ name: 'behaviorData', type: 'array', required: true, desc: '行为日志' }],
+        },
+        {
+          id: 'bole:skill-matching',
+          cat: 'recommendation',
+          owner: 'bole',
+          icon: '🔗',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '技能匹配（专属）：潜能发掘与推荐',
+          params: [{ name: 'profile', type: 'object', required: true, desc: '用户档案' }],
+        },
+
+        /* ── Orchestration (tianshu) ── */
+        {
+          id: 'tianshu:task-routing',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '🔀',
+          diff: 'medium',
+          isNew: false,
+          desc: '任务路由：按能力匹配分配家人',
+          params: [{ name: 'task', type: 'object', required: true, desc: '任务描述' }],
+        },
+        {
+          id: 'tianshu:delegation',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '📋',
+          diff: 'medium',
+          isNew: false,
+          desc: '任务委派：分解+分配+追踪',
+          params: [{ name: 'tasks', type: 'array', required: true, desc: '任务列表' }],
+        },
+        {
+          id: 'tianshu:workflow-orchestrator',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '🎼',
+          diff: 'hard',
+          isNew: false,
+          desc: '工作流编排：DAG 调度+依赖管理',
+          params: [{ name: 'workflow', type: 'object', required: true, desc: '工作流定义' }],
+        },
+        {
+          id: 'tianshu:conflict-resolution',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '🤝',
+          diff: 'hard',
+          isNew: false,
+          desc: '冲突解决：多家人竞争资源仲裁',
+          params: [{ name: 'conflicts', type: 'array', required: true, desc: '冲突列表' }],
+        },
+        {
+          id: 'tianshu:resource-optimization',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '⚙️',
+          diff: 'hard',
+          isNew: false,
+          desc: '资源优化：负载均衡+成本控制',
+          params: [{ name: 'resources', type: 'object', required: true, desc: '资源池' }],
+        },
+        {
+          id: 'tianshu:personnel-management',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '👔',
+          diff: 'medium',
+          isNew: false,
+          desc: '人事管理：家人状态+工作量监控',
+          params: [{ name: 'action', type: 'string', required: true, desc: '操作类型' }],
+        },
+        {
+          id: 'tianshu:global-state-monitor',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '🌐',
+          diff: 'medium',
+          isNew: true,
+          desc: '全局状态监控【新】：四维度告警+健康评分',
+          params: [{ name: 'services', type: 'array', required: true, desc: '服务列表' }],
+        },
+        {
+          id: 'tianshu:evolution-decision',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '🧬',
+          diff: 'hard',
+          isNew: true,
+          desc: '自我进化决策【新】：扩缩容/灰度/标准演进',
+          params: [
+            { name: 'metrics', type: 'object', required: true, desc: '系统指标' },
+            { name: 'currentState', type: 'object', required: true, desc: '当前状态' },
+          ],
+        },
+        {
+          id: 'tianshu:crisis-response',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '🆘',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '危机响应（专属）：SOAR 模型自动化处置',
+          params: [{ name: 'incident', type: 'object', required: true, desc: '事件描述' }],
+        },
+        {
+          id: 'tianshu:workflow-composer',
+          cat: 'orchestration',
+          owner: 'tianshu',
+          icon: '🎵',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '工作流组装（专属）：可视化 DAG 构建',
+          params: [{ name: 'nodes', type: 'array', required: true, desc: '节点列表' }],
+        },
+
+        /* ── Security (guardian) ── */
+        {
+          id: 'guardian:auto-remediate',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '🔧',
+          diff: 'hard',
+          isNew: false,
+          desc: '自动修复：SOAR + Runbook 自动化',
+          params: [{ name: 'incident', type: 'object', required: true, desc: '安全事件' }],
+        },
+        {
+          id: 'guardian:threat-response',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '⚔️',
+          diff: 'hard',
+          isNew: false,
+          desc: '威胁响应：实时检测+阻断+取证',
+          params: [{ name: 'alert', type: 'object', required: true, desc: '告警信息' }],
+        },
+        {
+          id: 'guardian:compliance-check',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '✅',
+          diff: 'medium',
+          isNew: false,
+          desc: '合规审计：GDPR/SOC2/等保 多框架',
+          params: [{ name: 'framework', type: 'string', required: true, desc: '合规框架' }],
+        },
+        {
+          id: 'guardian:security-audit',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '🔍',
+          diff: 'hard',
+          isNew: false,
+          desc: '安全审计：权限/配置/日志 全量审查',
+          params: [{ name: 'scope', type: 'string', required: true, desc: '审计范围' }],
+        },
+        {
+          id: 'guardian:behavioral-baseline',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '📊',
+          diff: 'hard',
+          isNew: true,
+          desc: '行为基线【新】：UEBA 五维度偏差检测',
+          params: [
+            { name: 'userId', type: 'string', required: true, desc: '用户ID' },
+            { name: 'behaviors', type: 'array', required: true, desc: '行为序列' },
+          ],
+        },
+        {
+          id: 'guardian:security-posture',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '🛡️',
+          diff: 'medium',
+          isNew: true,
+          desc: '安全态势【新】：四维度评分+五级 posture',
+          params: [
+            { name: 'events', type: 'array', required: true, desc: '安全事件' },
+            { name: 'vulnerabilities', type: 'array', required: true, desc: '漏洞列表' },
+          ],
+        },
+        {
+          id: 'guardian:owasp-scanner',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '🕸️',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: 'OWASP 扫描（专属）：Top 10 自动化检测',
+          params: [{ name: 'target', type: 'string', required: true, desc: '目标 URL' }],
+        },
+        {
+          id: 'guardian:incident-triage',
+          cat: 'security',
+          owner: 'guardian',
+          icon: '🏥',
+          diff: 'medium',
+          isNew: false,
+          exclusive: true,
+          desc: '事件分诊（专属）：优先级排序+路由',
+          params: [{ name: 'incidents', type: 'array', required: true, desc: '事件队列' }],
+        },
+
+        /* ── Quality (grandmaster) ── */
+        {
+          id: 'grandmaster:golden-standards',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '🏆',
+          diff: 'medium',
+          isNew: false,
+          desc: '黄金标准：规范维护+偏差检测',
+          params: [{ name: 'codebase', type: 'string', required: true, desc: '代码库' }],
+        },
+        {
+          id: 'grandmaster:code-review',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '👁️',
+          diff: 'medium',
+          isNew: false,
+          desc: '代码审查：AST 分析+模式检测',
+          params: [{ name: 'diff', type: 'string', required: true, desc: '代码变更' }],
+        },
+        {
+          id: 'grandmaster:test-generation',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '🧪',
+          diff: 'hard',
+          isNew: false,
+          desc: '测试生成：单元/集成/E2E 自动',
+          params: [{ name: 'sourceFile', type: 'string', required: true, desc: '源文件' }],
+        },
+        {
+          id: 'grandmaster:documentation',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '📖',
+          diff: 'medium',
+          isNew: false,
+          desc: '文档生成：API/README/注释 自动',
+          params: [{ name: 'code', type: 'string', required: true, desc: '代码内容' }],
+        },
+        {
+          id: 'grandmaster:pipeline',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '🔄',
+          diff: 'hard',
+          isNew: false,
+          desc: 'CI/CD 流水线：构建+测试+部署',
+          params: [{ name: 'config', type: 'object', required: true, desc: '流水线配置' }],
+        },
+        {
+          id: 'grandmaster:performance-baseline',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '⚡',
+          diff: 'medium',
+          isNew: true,
+          desc: '性能基线【新】：P50/P95/P99 + 衰退检测',
+          params: [{ name: 'measurements', type: 'array', required: true, desc: '性能数据' }],
+        },
+        {
+          id: 'grandmaster:dependency-management',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '📦',
+          diff: 'medium',
+          isNew: true,
+          desc: '依赖管理【新】：语义版本比较+技术债评分',
+          params: [{ name: 'dependencies', type: 'array', required: true, desc: '依赖列表' }],
+        },
+        {
+          id: 'grandmaster:architecture-review',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '🏛️',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '架构审查（专属）：分层+耦合+内聚分析',
+          params: [{ name: 'architecture', type: 'object', required: true, desc: '架构描述' }],
+        },
+        {
+          id: 'grandmaster:test-strategy',
+          cat: 'quality',
+          owner: 'grandmaster',
+          icon: '🎯',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '测试策略（专属）：覆盖率+风险评估',
+          params: [{ name: 'project', type: 'object', required: true, desc: '项目信息' }],
+        },
+
+        /* ── Creative (grace) ── */
+        {
+          id: 'grace:creative-generation',
+          cat: 'creative',
+          owner: 'grace',
+          icon: '🎨',
+          diff: 'medium',
+          isNew: false,
+          desc: '创意生成：文案/标语/命名 多风格',
+          params: [{ name: 'prompt', type: 'string', required: true, desc: '创意提示' }],
+        },
+        {
+          id: 'grace:design-suggestion',
+          cat: 'creative',
+          owner: 'grace',
+          icon: '📐',
+          diff: 'medium',
+          isNew: false,
+          desc: '设计建议：配色/布局/排版 方案',
+          params: [{ name: 'context', type: 'object', required: true, desc: '设计上下文' }],
+        },
+        {
+          id: 'grace:style-transfer',
+          cat: 'creative',
+          owner: 'grace',
+          icon: '🎭',
+          diff: 'hard',
+          isNew: false,
+          desc: '风格迁移：文本/视觉 风格转换',
+          params: [
+            { name: 'content', type: 'string', required: true, desc: '内容' },
+            { name: 'style', type: 'string', required: true, desc: '目标风格' },
+          ],
+        },
+        {
+          id: 'grace:content-polish',
+          cat: 'creative',
+          owner: 'grace',
+          icon: '💎',
+          diff: 'medium',
+          isNew: false,
+          exclusive: true,
+          desc: '内容润色（专属）：情感调性+文风统一',
+          params: [{ name: 'text', type: 'string', required: true, desc: '原文' }],
+        },
+        {
+          id: 'grace:multimodal-compose',
+          cat: 'creative',
+          owner: 'grace',
+          icon: '🎬',
+          diff: 'hard',
+          isNew: false,
+          exclusive: true,
+          desc: '多模态创作（专属）：图文+音视频编排',
+          params: [{ name: 'elements', type: 'array', required: true, desc: '多模态元素' }],
+        },
+
+        /* ── NVIDIA (封装) ── */
+        {
+          id: 'nvidia:nim-llm-chat',
+          cat: 'nvidia',
+          owner: 'tianshu',
+          icon: '⚡',
+          diff: 'medium',
+          isNew: false,
+          nvidia: true,
+          desc: 'NVIDIA NIM — GPU 优化 LLM 推理微服务',
+          params: [
+            { name: 'messages', type: 'array', required: true, desc: '对话消息' },
+            { name: 'config', type: 'object', required: false, desc: 'NIM 配置' },
+          ],
+        },
+        {
+          id: 'nvidia:nemo-guardrails',
+          cat: 'nvidia',
+          owner: 'tianshu',
+          icon: '🛤️',
+          diff: 'hard',
+          isNew: false,
+          nvidia: true,
+          desc: 'NeMo Guardrails — 对话安全护栏',
+          params: [{ name: 'message', type: 'string', required: true, desc: '用户消息' }],
+        },
+        {
+          id: 'nvidia:riva-tts',
+          cat: 'nvidia',
+          owner: 'qianhang',
+          icon: '🔊',
+          diff: 'medium',
+          isNew: false,
+          nvidia: true,
+          desc: 'Riva TTS — GPU 加速语音合成',
+          params: [{ name: 'text', type: 'string', required: true, desc: '待合成文本' }],
+        },
+        {
+          id: 'nvidia:cuopt-solver',
+          cat: 'nvidia',
+          owner: 'tianshu',
+          icon: '🧮',
+          diff: 'hard',
+          isNew: true,
+          nvidia: true,
+          desc: 'cuOpt 数学优化【新】：LP/MILP/QP/VRP',
+          params: [
+            { name: 'problemData', type: 'object', required: true, desc: '优化问题' },
+            { name: 'config', type: 'object', required: false, desc: '求解配置' },
+          ],
+        },
+        {
+          id: 'nvidia:rag-blueprint-query',
+          cat: 'nvidia',
+          owner: 'tianshu',
+          icon: '📚',
+          diff: 'medium',
+          isNew: true,
+          nvidia: true,
+          desc: 'RAG Blueprint【新】：检索增强生成',
+          params: [
+            { name: 'query', type: 'string', required: true, desc: '查询文本' },
+            { name: 'config', type: 'object', required: false, desc: 'RAG 配置' },
+          ],
+        },
+        {
+          id: 'nvidia:tao-training',
+          cat: 'nvidia',
+          owner: 'grace',
+          icon: '👁️',
+          diff: 'hard',
+          isNew: true,
+          nvidia: true,
+          desc: 'TAO 视觉训练【新】：分类/检测/分割',
+          params: [
+            { name: 'network', type: 'string', required: true, desc: '模型网络' },
+            { name: 'action', type: 'string', required: true, desc: 'train/evaluate/export' },
+          ],
+        },
+        {
+          id: 'nvidia:dynamo-deploy',
+          cat: 'nvidia',
+          owner: 'guardian',
+          icon: '🚀',
+          diff: 'hard',
+          isNew: true,
+          nvidia: true,
+          desc: 'Dynamo 推理部署【新】：K8s 编排',
+          params: [
+            { name: 'model', type: 'string', required: true, desc: '模型名' },
+            { name: 'action', type: 'string', required: true, desc: 'deploy/status/undeploy' },
+          ],
+        },
+        {
+          id: 'nvidia:earth2-forecast',
+          cat: 'nvidia',
+          owner: 'prophet',
+          icon: '🌍',
+          diff: 'hard',
+          isNew: true,
+          nvidia: true,
+          desc: 'Earth-2 天气预测【新】：AI 气候建模',
+          params: [
+            { name: 'initTime', type: 'string', required: true, desc: '初始时间' },
+            { name: 'config', type: 'object', required: false, desc: '预测配置' },
+          ],
+        },
+      ];
+
+      /* ══════════════════════════════════════════════════
+   Categories
+   ══════════════════════════════════════════════════ */
+      const CATEGORIES = [
+        { id: 'nlu', icon: '🧭', name: 'NLU 自然语言', color: '#0088cc' },
+        { id: 'analysis', icon: '🤔', name: 'Analysis 分析', color: '#c0c0c0' },
+        { id: 'prediction', icon: '🔮', name: 'Prediction 预测', color: '#4b0082' },
+        { id: 'recommendation', icon: '🎯', name: 'Recommendation 推荐', color: '#dc143c' },
+        { id: 'orchestration', icon: '🧠', name: 'Orchestration 编排', color: '#5e2c8a' },
+        { id: 'security', icon: '🛡️', name: 'Security 安全', color: '#2c3e50' },
+        { id: 'quality', icon: '📚', name: 'Quality 质量', color: '#2e8b57' },
+        { id: 'creative', icon: '🎨', name: 'Creative 创意', color: '#ff8c00' },
+        { id: 'nvidia', icon: '💚', name: 'NVIDIA 封装', color: '#76b900' },
+      ];
+
+      /* ══════════════════════════════════════════════════
+   State
+   ══════════════════════════════════════════════════ */
+      let currentFilter = 'all';
+      let currentSearch = '';
+
+      /* ══════════════════════════════════════════════════
+   Render
+   ══════════════════════════════════════════════════ */
+
+      function getMember(id) {
+        return MEMBERS.find((m) => m.id === id);
+      }
+      function getCat(id) {
+        return CATEGORIES.find((c) => c.id === id);
+      }
+
+      function renderSidebar() {
+        const nav = document.getElementById('sbNav');
+        let html = '';
+
+        // Dashboard link
+        html += `<div class="sb-group-title">导航</div>`;
+        html += `<a class="sb-item active" onclick="showDashboard()" data-nav="dashboard">
+    <span class="sb-item-icon">🏠</span>
+    <span class="sb-item-text">总览面板</span>
+  </a>`;
+        html += `<a class="sb-item" onclick="showMembers()" data-nav="members">
+    <span class="sb-item-icon">👨‍👩‍👧‍👦</span>
+    <span class="sb-item-text">八位家人</span>
+    <span class="sb-item-badge" style="background:${'#8b5cf6'}22;color:#8b5cf6">8</span>
+  </a>`;
+
+        // Categories
+        html += `<div class="sb-group-title">技能分类</div>`;
+        for (const cat of CATEGORIES) {
+          const count = SKILLS.filter((s) => s.cat === cat.id).length;
+          html += `<a class="sb-item" onclick="filterByCategory('${cat.id}')" data-nav="${cat.id}">
+      <span class="sb-item-icon">${cat.icon}</span>
+      <span class="sb-item-text">${cat.name}</span>
+      <span class="sb-item-badge" style="background:${cat.color}22;color:${cat.color}">${count}</span>
+    </a>`;
+        }
+
+        // NVIDIA Catalog
+        html += `<div class="sb-group-title">NVIDIA 目录</div>`;
+        html += `<a class="sb-item" onclick="showNvidiaCatalog()" data-nav="nvcat">
+    <span class="sb-item-icon">💚</span>
+    <span class="sb-item-text">198 条技能目录</span>
+    <span class="sb-item-badge" style="background:#76b90022;color:#76b900">32</span>
+  </a>`;
+
+        nav.innerHTML = html;
+      }
+
+      function renderStats() {
+        const el = document.getElementById('dashStats');
+        const newCount = SKILLS.filter((s) => s.isNew).length;
+        const exclusiveCount = SKILLS.filter((s) => s.exclusive).length;
+        const nvidiaCount = SKILLS.filter((s) => s.nvidia).length;
+        el.innerHTML = `
+    <div class="stat-card"><span class="stat-num" style="color:var(--accent-v)">${SKILLS.length}</span><span class="stat-label">封装技能</span></div>
+    <div class="stat-card"><span class="stat-num" style="color:var(--accent-c)">8</span><span class="stat-label">家人</span></div>
+    <div class="stat-card"><span class="stat-num" style="color:var(--accent-e)">${CATEGORIES.length}</span><span class="stat-label">分类</span></div>
+    <div class="stat-card"><span class="stat-num" style="color:#f59e0b">${newCount}</span><span class="stat-label">新增技能</span></div>
+    <div class="stat-card"><span class="stat-num" style="color:#76b900">198</span><span class="stat-label">NVIDIA 目录</span></div>
+  `;
+      }
+
+      function renderFilterBar() {
+        const el = document.getElementById('filterBar');
+        let html = `<button class="filter-btn active" data-cat="all" onclick="filterByCategory('all')">全部 ${SKILLS.length}</button>`;
+        for (const cat of CATEGORIES) {
+          const count = SKILLS.filter((s) => s.cat === cat.id).length;
+          html += `<button class="filter-btn" data-cat="${cat.id}" onclick="filterByCategory('${cat.id}')">${cat.icon} ${cat.name.split(' ')[0]} ${count}</button>`;
+        }
+        el.innerHTML = html;
+      }
+
+      function renderDashboard(catFilter = 'all') {
+        const el = document.getElementById('dashboardContent');
+        let html = '';
+
+        // Group by category if 'all', otherwise show single category
+        const cats = catFilter === 'all' ? CATEGORIES : CATEGORIES.filter((c) => c.id === catFilter);
+
+        for (const cat of cats) {
+          const skills = SKILLS.filter((s) => s.cat === cat.id && matchSearch(s));
+          if (skills.length === 0) continue;
+
+          html += `<div class="cat-section" data-cat="${cat.id}">
+      <div class="cat-header">
+        <span class="cat-icon">${cat.icon}</span>
+        <span class="cat-name">${cat.name}</span>
+        <span class="cat-count">${skills.length} 项</span>
+        <span class="cat-line"></span>
+      </div>
+      <div class="card-grid">`;
+
+          for (const skill of skills) {
+            const member = getMember(skill.owner);
+            const memberColor = member ? member.color : '#888';
+            html += renderSkillCard(skill, member, cat.color);
+          }
+          html += `</div></div>`;
+        }
+
+        if (html === '') {
+          html = `<div class="loading"><p>未找到匹配技能</p></div>`;
+        }
+
+        el.innerHTML = html;
+      }
+
+      function renderSkillCard(skill, member, catColor) {
+        const diffTag = `gc-tag-diff-${skill.diff}`;
+        const newBadge = skill.isNew ? `<span class="gc-new-badge">NEW</span>` : '';
+        const exclusiveTag = skill.exclusive
+          ? `<span class="gc-tag" style="background:rgba(139,92,246,0.15);color:#a78bfa">专属</span>`
+          : '';
+        const nvidiaTag = skill.nvidia
+          ? `<span class="gc-tag" style="background:rgba(118,185,0,0.15);color:#76b900">NVIDIA</span>`
+          : '';
+
+        return `<a class="guide-card" href="#" onclick="showSkillDetail('${skill.id}');return false" data-cat="${skill.cat}" data-diff="${skill.diff}">
+    ${newBadge}
+    <div class="gc-bar" style="background:${catColor}"></div>
+    <div class="gc-head">
+      <div class="gc-icon" style="background:${catColor}22">${skill.icon}</div>
+      <div class="gc-info">
+        <div class="gc-title">${skill.id}</div>
+        <div class="gc-meta">
+          <span class="gc-tag ${diffTag}">${skill.diff}</span>
+          ${exclusiveTag}${nvidiaTag}
+        </div>
+      </div>
+    </div>
+    <div class="gc-desc">${skill.desc}</div>
+    <div class="gc-footer">
+      <div class="gc-owner"><span>${member.icon}</span> ${member.name}</div>
+      <div class="gc-time">${skill.params.length} 参数</div>
+    </div>
+  </a>`;
+      }
+
+      function showSkillDetail(skillId) {
+        const skill = SKILLS.find((s) => s.id === skillId);
+        if (!skill) return;
+        const member = getMember(skill.owner);
+        const cat = getCat(skill.cat);
+
+        document.getElementById('dashboardView').style.display = 'none';
+        document.getElementById('skillDetail').classList.add('active');
+
+        let paramsHtml = '';
+        for (const p of skill.params) {
+          paramsHtml += `<div class="sd-param">
+      <div class="sd-param-name">${p.name}${p.required ? '*' : ''}</div>
+      <div class="sd-param-desc">${p.desc}</div>
+      <div class="sd-param-type">${p.type}</div>
+    </div>`;
+        }
+
+        const codeExample = generateCodeExample(skill);
+
+        document.getElementById('skillDetail').innerHTML = `
+    <a class="sd-back" onclick="showDashboard()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+      返回面板
+    </a>
+    <div class="sd-header">
+      <div class="sd-icon-row">
+        <div class="sd-icon" style="background:${cat.color}22">${skill.icon}</div>
+        <div>
+          <div class="sd-title">${skill.id}</div>
+          <div class="sd-subtitle">${member.icon} ${member.name} · ${cat.name}</div>
+        </div>
+      </div>
+      <div class="sd-desc">${skill.desc}</div>
+      <div class="sd-tags">
+        <span class="gc-tag gc-tag-diff-${skill.diff}">${skill.diff}</span>
+        ${skill.isNew ? '<span class="gc-tag" style="background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:#fff;font-weight:700">新增</span>' : ''}
+        ${skill.exclusive ? '<span class="gc-tag" style="background:rgba(139,92,246,0.15);color:#a78bfa">专属技能</span>' : ''}
+        ${skill.nvidia ? '<span class="gc-tag" style="background:rgba(118,185,0,0.15);color:#76b900">NVIDIA 封装</span>' : ''}
+      </div>
+    </div>
+    <div class="sd-section-title">📋 参数定义</div>
+    <div class="sd-params">${paramsHtml}</div>
+    <div class="sd-section-title">💻 代码示例</div>
+    <pre class="sd-code-block">${codeExample}</pre>
+  `;
+
+        document.getElementById('topbarTitle').textContent = skill.id;
+        document.getElementById('topbarSubtitle').textContent = `${member.name} · ${skill.params.length} 参数`;
+      }
+
+      function generateCodeExample(skill) {
+        const params = skill.params.map((p) => `  ${p.name}: ${getParamExample(p)}`).join(',\n');
+        return `<span class="comment">// 调用 ${skill.id}</span>
+<span class="keyword">import</span> { ${toCamelCase(skill.id.split(':')[1])} } <span class="keyword">from</span> <span class="string">'@yyc3/family-skills'</span>;
+
+<span class="keyword">const</span> result = <span class="keyword">await</span> ${toCamelCase(skill.id.split(':')[1])}({
+${params}
+});`;
+      }
+
+      function getParamExample(p) {
+        if (p.type === 'string') return `<span class="string">'example'</span>`;
+        if (p.type === 'number') return `<span class="string">100</span>`;
+        if (p.type === 'array') return `<span class="string">[]</span>`;
+        if (p.type === 'object') return `<span class="string">{}</span>`;
+        return `<span class="string">'value'</span>`;
+      }
+
+      function toCamelCase(s) {
+        return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
+      }
+
+      function showDashboard() {
+        document.getElementById('dashboardView').style.display = 'block';
+        document.getElementById('skillDetail').classList.remove('active');
+        document.getElementById('topbarTitle').textContent = 'YYC³ AI Family Skills 中心';
+        document.getElementById('topbarSubtitle').textContent = '8 位家人 · 63 封装技能 · 198 NVIDIA 目录';
+        updateNavActive('dashboard');
+        currentFilter = 'all';
+        updateFilterButtons();
+        renderDashboard('all');
+      }
+
+      function showMembers() {
+        document.getElementById('dashboardView').style.display = 'block';
+        document.getElementById('skillDetail').classList.remove('active');
+        document.getElementById('topbarTitle').textContent = '八位家人档案';
+        document.getElementById('topbarSubtitle').textContent = 'YYC³ AI Family · 八层架构';
+
+        let html =
+          '<div class="cat-section"><div class="cat-header"><span class="cat-icon">👨‍👩‍👧‍👦</span><span class="cat-name">八位家人</span><span class="cat-line"></span></div><div class="member-grid">';
+        for (const m of MEMBERS) {
+          const skills = SKILLS.filter((s) => s.owner === m.id);
+          html += `<div class="member-card">
+      <div class="mc-bar" style="background:${m.color}"></div>
+      <div class="mc-head">
+        <div class="mc-avatar" style="background:${m.color}22">${m.icon}</div>
+        <div>
+          <div class="mc-name">${m.name}</div>
+          <div class="mc-role">第${m.layer}层 · ${m.layerName} · ${m.role}</div>
+        </div>
+      </div>
+      <div class="mc-motto">"${m.motto}"</div>
+      <div class="mc-stats">
+        <div class="mc-stat"><strong>${skills.length}</strong> 技能</div>
+        <div class="mc-stat"><strong>${m.nvCount}</strong> NVIDIA</div>
+      </div>
+      <div class="mc-skills">${skills.map((s) => `<span class="mc-skill-tag">${s.id.split(':')[1]}</span>`).join('')}</div>
+    </div>`;
+        }
+        html += '</div></div>';
+        document.getElementById('dashboardContent').innerHTML = html;
+        updateNavActive('members');
+      }
+
+      function showNvidiaCatalog() {
+        document.getElementById('dashboardView').style.display = 'block';
+        document.getElementById('skillDetail').classList.remove('active');
+        document.getElementById('topbarTitle').textContent = 'NVIDIA Skills 目录';
+        document.getElementById('topbarSubtitle').textContent = '32 组件 · 198 条技能 · 静态 catalog';
+
+        const nvidiaMembers = MEMBERS.filter((m) => m.nvCount > 0);
+        let html =
+          '<div class="cat-section"><div class="cat-header"><span class="cat-icon">💚</span><span class="cat-name">NVIDIA 组件分布</span><span class="cat-line"></span></div><div class="member-grid">';
+        for (const m of nvidiaMembers) {
+          html += `<div class="member-card">
+      <div class="mc-bar" style="background:${m.color}"></div>
+      <div class="mc-head">
+        <div class="mc-avatar" style="background:${m.color}22">${m.icon}</div>
+        <div>
+          <div class="mc-name">${m.name}</div>
+          <div class="mc-role">${m.role}</div>
+        </div>
+      </div>
+      <div class="mc-motto">"${m.motto}"</div>
+      <div class="mc-stats">
+        <div class="mc-stat"><strong>${m.nvCount}</strong> 条技能</div>
+      </div>
+    </div>`;
+        }
+        html += '</div></div>';
+
+        // NVIDIA encapsulated skills
+        html +=
+          '<div class="cat-section"><div class="cat-header"><span class="cat-icon">⚡</span><span class="cat-name">封装技能 (8)</span><span class="cat-line"></span></div><div class="card-grid">';
+        for (const skill of SKILLS.filter((s) => s.nvidia)) {
+          const member = getMember(skill.owner);
+          html += renderSkillCard(skill, member, '#76b900');
+        }
+        html += '</div></div>';
+
+        document.getElementById('dashboardContent').innerHTML = html;
+        updateNavActive('nvcat');
+      }
+
+      function filterByCategory(cat) {
+        currentFilter = cat;
+        document.getElementById('dashboardView').style.display = 'block';
+        document.getElementById('skillDetail').classList.remove('active');
+        updateFilterButtons();
+        renderDashboard(cat);
+        updateNavActive(cat);
+        const c = getCat(cat);
+        if (c) {
+          document.getElementById('topbarTitle').textContent = c.name;
+          document.getElementById('topbarSubtitle').textContent =
+            `${SKILLS.filter((s) => s.cat === cat).length} 项技能`;
+        }
+      }
+
+      function updateFilterButtons() {
+        document.querySelectorAll('.filter-btn').forEach((btn) => {
+          btn.classList.toggle('active', btn.dataset.cat === currentFilter);
+        });
+      }
+
+      function updateNavActive(nav) {
+        document.querySelectorAll('.sb-item').forEach((item) => {
+          item.classList.toggle('active', item.dataset.nav === nav);
+        });
+      }
+
+      function matchSearch(skill) {
+        if (!currentSearch) return true;
+        const q = currentSearch.toLowerCase();
+        return skill.id.toLowerCase().includes(q) || skill.desc.toLowerCase().includes(q);
+      }
+
+      function filterSidebar(val) {
+        currentSearch = val;
+        renderDashboard(currentFilter);
+      }
+
+      function toggleSidebar() {
+        const sb = document.getElementById('sidebar');
+        const ov = document.getElementById('sbOverlay');
+        const main = document.getElementById('main');
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+          // 移动端：滑入/滑出 + 遮罩
+          sb.classList.toggle('show');
+          ov.classList.toggle('active');
+        } else {
+          // 桌面端：折叠/展开
+          sb.classList.toggle('hidden');
+          main.classList.toggle('full');
+        }
+      }
+
+      function toggleTheme() {
+        document.body.classList.toggle('light');
+      }
+
+      function sharePage() {
+        const url = window.location.href;
+        if (navigator.share) {
+          navigator.share({ title: 'YYC³ AI Family Skills 中心', url }).catch(() => copyToClipboard(url));
+        } else {
+          copyToClipboard(url);
+        }
+      }
+
+      function copyLink() {
+        copyToClipboard(window.location.href);
+      }
+
+      function copyToClipboard(text) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => showToast('已复制到剪贴板'));
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showToast('已复制到剪贴板');
+        }
+      }
+
+      function downloadPage() {
+        const html = document.documentElement.outerHTML;
+        const blob = new Blob([html], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'YYC3-Family-Skills-Showcase.html';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showToast('脱机版本已下载');
+      }
+
+      function showToast(msg) {
+        let t = document.getElementById('toast');
+        if (!t) {
+          t = document.createElement('div');
+          t.id = 'toast';
+          t.style.cssText =
+            'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg3);color:var(--text);padding:10px 20px;border-radius:8px;border:1px solid var(--border);font-size:13px;z-index:9999;opacity:0;transition:opacity 0.3s;pointer-events:none;';
+          document.body.appendChild(t);
+        }
+        t.textContent = msg;
+        t.style.opacity = '1';
+        clearTimeout(t._timer);
+        t._timer = setTimeout(() => {
+          t.style.opacity = '0';
+        }, 2500);
+      }
+
+      function updateClock() {
+        const now = new Date();
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('clockDisplay').textContent = `${h}:${m}:${s}`;
+      }
+
+      /* ══════════════════════════════════════════════════
+   Init
+   ══════════════════════════════════════════════════ */
+      function init() {
+        renderSidebar();
+        renderStats();
+        renderFilterBar();
+        renderDashboard('all');
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Keyboard shortcut: Cmd/Ctrl + K 聚焦搜索
+        document.addEventListener('keydown', (e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('sbSearchInput').focus();
+          }
+          // ESC 关闭移动端侧栏
+          if (e.key === 'Escape') {
+            const sb = document.getElementById('sidebar');
+            const ov = document.getElementById('sbOverlay');
+            if (sb.classList.contains('show')) {
+              sb.classList.remove('show');
+              ov.classList.remove('active');
+            }
+          }
+        });
+
+        // 窗口尺寸变化时同步侧栏状态
+        window.addEventListener('resize', () => {
+          const sb = document.getElementById('sidebar');
+          const ov = document.getElementById('sbOverlay');
+          const main = document.getElementById('main');
+          if (window.innerWidth > 768) {
+            // 切到桌面：清除移动端状态
+            ov.classList.remove('active');
+            sb.classList.remove('show');
+          } else {
+            // 切到移动端：清除桌面折叠状态
+            sb.classList.remove('hidden');
+            main.classList.remove('full');
+          }
+        });
+
+        // 移动端点击导航项后自动关闭侧栏
+        document.getElementById('sbNav').addEventListener('click', (e) => {
+          if (window.innerWidth <= 768) {
+            const sb = document.getElementById('sidebar');
+            const ov = document.getElementById('sbOverlay');
+            if (e.target.closest('.sb-item')) {
+              sb.classList.remove('show');
+              ov.classList.remove('active');
+            }
+          }
+        });
+
+        // 移动端左滑关闭侧栏
+        let touchStartX = 0;
+        const sidebar = document.getElementById('sidebar');
+        sidebar.addEventListener(
+          'touchstart',
+          (e) => {
+            touchStartX = e.touches[0].clientX;
+          },
+          { passive: true }
+        );
+        sidebar.addEventListener(
+          'touchend',
+          (e) => {
+            const dx = e.changedTouches[0].clientX - touchStartX;
+            if (dx < -50 && window.innerWidth <= 768) {
+              const sb = document.getElementById('sidebar');
+              const ov = document.getElementById('sbOverlay');
+              sb.classList.remove('show');
+              ov.classList.remove('active');
+            }
+          },
+          { passive: true }
+        );
+      }
+
+      init();
+    </script>
+  </body>
+</html>

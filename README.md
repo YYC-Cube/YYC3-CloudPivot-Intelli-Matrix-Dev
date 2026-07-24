@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./public/yyc3-Family.png" alt="YYC³ AI Family" width="200" height="200" />
+<img src="./public/yyc3-Family.png" alt="YYC³ AI Family"/>
 
 # YYC³ CloudPivot Intelli-Matrix
 

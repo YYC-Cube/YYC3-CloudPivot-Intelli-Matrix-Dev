@@ -4,6 +4,13 @@
   "description": "YYC³ AI Family 核心引擎 — 编排、模型路由、消息总线",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./source": "./src/index.ts"
+  },
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
@@ -26,6 +33,6 @@
   "devDependencies": {
     "@types/node": "^25.9.2",
     "typescript": "^5.9.0",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.11"
   }
 }

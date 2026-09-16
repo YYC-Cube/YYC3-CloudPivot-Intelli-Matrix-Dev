@@ -13,6 +13,7 @@ _云枢万象 · 智矩深栈 · 八位家人协同 · 全链路闭环_
 ---
 
 <!-- 徽章系统 -->
+[![CI/CD](https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev/actions/workflows/ai-eco-ci.yml/badge.svg)](https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev/actions/workflows/ai-eco-ci.yml)
 ![Status](https://img.shields.io/badge/Status-Phase%204%20%F0%9F%94%A8%20AI%20Family%20%E6%99%BA%E8%83%BD%E4%BD%93-00FF88?style=for-the-badge&logoColor=white)
 ![Version](https://img.shields.io/badge/Version-v1.4.0-00d4ff?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-Apache--2.0-FF6600?style=for-the-badge)
@@ -20,12 +21,13 @@ _云枢万象 · 智矩深栈 · 八位家人协同 · 全链路闭环_
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7%2B-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white)
-![Vitest](https://img.shields.io/badge/Vitest-3.2-6E9F18?style=flat-square&logo=vitest&logoColor=white)
-![pnpm](https://img.shields.io/badge/pnpm-9%2B-F69220?style=flat-square&logo=pnpm&logoColor=white)
+![Vitest](https://img.shields.io/badge/Vitest-5.0-6E9F18?style=flat-square&logo=vitest&logoColor=white)
+![pnpm](https://img.shields.io/badge/pnpm-11-F69220?style=flat-square&logo=pnpm&logoColor=white)
+![Node](https://img.shields.io/badge/Node-22%2B-339933?style=flat-square&logo=nodedotjs&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Playwright](https://img.shields.io/badge/Playwright-E2E-2EAD33?style=flat-square&logo=playwright&logoColor=white)
 
-![Tests](https://img.shields.io/badge/Tests-799%20%E2%9C%85%20%7C%200%20%E2%9D%8C%20%7C%2026%20%E2%9A%A0-00FF88?style=flat-square)
+![Tests](https://img.shields.io/badge/Tests-257%20%E2%9C%85%20%7C%200%20%E2%9D%8C-00FF88?style=flat-square)
 ![Type Check](https://img.shields.io/badge/tsc%20--noEmit-0%20errors-00FF88?style=flat-square)
 ![Monorepo](https://img.shields.io/badge/Monorepo-30%20modules-AA55FF?style=flat-square)
 ![Apps](https://img.shields.io/badge/Apps-8%20standalone-C9A96E?style=flat-square)
@@ -128,7 +130,7 @@ _云枢万象 · 智矩深栈 · 八位家人协同 · 全链路闭环_
 ### 2.2 插件全景矩阵
 
 | 包 | 类型 | 系统名 | 色值 | 引擎 / 核心 | 测试 | 状态 |
-|----|------|--------|------|-------------|------|------|
+| ---- | ------ | -------- | ------ | ------------- | ------ | ------ |
 | `shell` | 核心外壳 | 系统外壳 | — | EventBus + Storage | 67 | ✅ 稳定 |
 | `family-core` | 智能体核心 | 家族宪章 | `#00FF88` | 五维五环 + 标头标尾 | 540 | ✅ 稳定 |
 | `family-skills` | 智能体核心 | 技能契约 | `#00d4ff` | defineSkill + MCP 桥接 | 121 | ✅ 稳定 |
@@ -156,7 +158,7 @@ _云枢万象 · 智矩深栈 · 八位家人协同 · 全链路闭环_
 ### 3.1 环境要求
 
 | 工具 | 版本 | 说明 |
-|------|------|------|
+| ------ | ------ | ------ |
 | Node.js | ≥ 20.0.0 | 推荐 LTS |
 | pnpm | ≥ 9.0.0 | 禁止 npm/yarn |
 | Git | ≥ 2.40 | 版本控制 |
@@ -167,9 +169,11 @@ _云枢万象 · 智矩深栈 · 八位家人协同 · 全链路闭环_
 git clone <repo-url> YYC3-CloudPivot-Intelli-Matrix-Dev
 cd YYC3-CloudPivot-Intelli-Matrix-Dev
 
-pnpm install                    # 安装依赖
-npx tsc --noEmit                # TypeScript 零错误 ✅
-npx vitest run                  # 全量测试 799 通过 ✅
+pnpm install                    # 安装依赖 (Node 22+ / pnpm 11)
+pnpm type-check                 # TypeScript 零错误 ✅
+pnpm lint                       # ESLint (0 errors) ✅
+pnpm test                       # 根套件 257 通过 ✅
+pnpm audit                      # 依赖漏洞 0 ✅
 npx playwright test              # E2E 测试（Playwright Chromium）
 ```
 
@@ -318,7 +322,7 @@ await bridge.chatStream(
 ## 六、业务引擎一览
 
 | 引擎 | 包 | 核心算法 | 测试 |
-|------|----|----------|------|
+| ------ | ---- | ---------- | ------ |
 | **TargetEngine** | plugin-target | X = 基数 × 城市系数 × 规模系数 × 增速系数 × 调整系数 | 35 ✅ |
 | **CostEngine** | plugin-cost | 盈亏平衡 + 敏感性分析 + 预警分级 | 30 ✅ |
 | **FestivalEngine** | plugin-marketing | 农历转换 + 节日阶段 + 营销日历 | 41 ✅ |
@@ -337,7 +341,7 @@ await bridge.chatStream(
 ### 7.1 架构与设计
 
 | 文档 | 说明 |
-|------|------|
+| ------ | ------ |
 | [项目架构-设计总纲](./docs/YYC3-项目架构-设计总纲.md) | 变量词库 · 路由接口 · 存储架构 · 事件总线 |
 | [视觉设计-Figma规范](./docs/YYC3-视觉设计-Figma规范.md) | 色彩 · 字体 · 组件 · 6 页面详细设计 |
 | [生产部署-就绪规划](./docs/YYC3-生产部署-就绪规划.md) | M1-M8 里程碑 · Phase 1-4 规划 |
@@ -349,7 +353,7 @@ await bridge.chatStream(
 位于 `docs/YYC3-团队通用-标准规范/`：
 
 | 文档 | 说明 |
-|------|------|
+| ------ | ------ |
 | [团队规范-开发标准](./docs/YYC3-团队通用-标准规范/YYC3-团队通用-标规文档/YYC3-团队规范-开发标准.md) | YAML Front Matter · JSDoc · 文档分类 |
 | [团队核心-五维驱动](./docs/YYC3-团队通用-标准规范/YYC3-团队通用-标规文档/YYC3-团队核心-五维驱动.md) | 五高五标五化五维框架 |
 | [团队规范-文档闭环](./docs/YYC3-团队通用-标准规范/YYC3-团队通用-标规文档/YYC3-团队规范-文档闭环.md) | 模版体系 · 追溯机制 · 迭代演进 |
@@ -358,7 +362,7 @@ await bridge.chatStream(
 ### 7.3 开发者文档
 
 | 文档 | 说明 |
-|------|------|
+| ------ | ------ |
 | [快速入门](./docs/YYC3-团队通用-标准规范/YYC3-开发者-快速入门.md) | 环境搭建 → 项目认知 → 五分钟创建插件 |
 | [架构总纲](./docs/YYC3-团队通用-标准规范/YYC3-开发者-架构总纲.md) | Shell + 插件分层 · EventBus · 存储架构 |
 | [插件开发指南](./docs/YYC3-团队通用-标准规范/YYC3-开发者-插件开发指南.md) | SystemRegistration · 引擎层 · 上线 Checklist |
@@ -372,7 +376,7 @@ await bridge.chatStream(
 位于 `docs/AI-FAmily-Agent-家人档案/`：
 
 | 文档 | 说明 |
-|------|------|
+| ------ | ------ |
 | [家人档案总览](./docs/AI-FAmily-Agent-家人档案/README.md) | 八位家人角色定位 · 情感文化铭文 |
 | [01-言启·千行](./docs/AI-FAmily-Agent-家人档案/01-AI-FAmily-Agent-言启·千行.md) | 千航·引路人 — 自然语言导航 |
 | [02-语枢·万物](./docs/AI-FAmily-Agent-家人档案/02-AI-FAmily-Agent-语枢·万物.md) | 语枢·创想 — 创意生成 |
@@ -396,7 +400,7 @@ await bridge.chatStream(
 <div align="center">
 
 | 五高架构 | 五标体系 | 五化转型 | 五维评估 |
-|----------|----------|----------|----------|
+| ---------- | ---------- | ---------- | ---------- |
 | 高可用 | 标准化 | 流程化 | 时间维 |
 | 高性能 | 规范化 | 数字化 | 空间维 |
 | 高安全 | 自动化 | 生态化 | 属性维 |
@@ -412,14 +416,18 @@ await bridge.chatStream(
 <div align="center">
 
 | 指标 | 当前值 | 状态 |
-|------|--------|------|
+| ------ | -------- | ------ |
 | TypeScript 错误 | 0 | ✅ |
-| 测试总数 | 799 通过 · 26 跳过 | ✅ 全绿 |
+| ESLint errors | 0 (114 warnings 渐进收紧) | ✅ |
+| 根套件测试 | 257 通过 | ✅ 全绿 |
+| Coverage 阈值 | lines 50 / branch 65 / func 70 (防回退门禁) | ✅ |
+| 依赖漏洞 (pnpm audit) | 0 (54 → 0, override 锁大版本) | ✅ |
+| 密钥扫描 | Gitleaks 阻塞门禁 | ✅ |
 | 测试通过率 | 100% | ✅ |
 | E2E 测试 | Playwright (Chromium) | ✅ |
 | 插件包数量 | 16 packages + 6 docs/packages | ✅ |
 | 独立应用数量 | 8 | ✅ |
-| CI 流水线 | GitHub Actions | ✅ |
+| CI 流水线 | GitHub Actions (audit/gitleaks 阻塞 + 最小权限) | ✅ |
 | 文档数量 | 40+ | ✅ |
 | AI Family 技能 | 80 基础 + 261 NVIDIA 桥接 | ✅ |
 | 核心业务文档 | 4（目标量化·成本盈亏·营销工具·提示词） | ✅ 已衔接 |
@@ -433,7 +441,7 @@ await bridge.chatStream(
 <div align="center">
 
 | 层级 | 技术 |
-|------|------|
+| ------ | ------ |
 | 语言 | TypeScript 5.7+ (strict) |
 | 框架 | React 19 |
 | 构建 | Vite 6 |
@@ -452,7 +460,7 @@ await bridge.chatStream(
 ## 十一、开发红线
 
 | 红线 | 说明 |
-|------|------|
+| ------ | ------ |
 | ❌ 禁止 npm/yarn | 统一使用 pnpm |
 | ❌ 禁止直接 import 其他插件包内部组件 | 使用 EventBus 通信 |
 | ❌ 禁止直接操作 localStorage | 使用 `createSystemStorage(id)` |
@@ -465,7 +473,7 @@ await bridge.chatStream(
 ## 十二、路线图
 
 | Phase | 内容 | 状态 |
-|-------|------|------|
+| ------- | ------ | ------ |
 | **Phase 1** | Shell + 插件体系 + 4 引擎 + 测试 | ✅ 完成 |
 | **Phase 2** | 功能完整性（AI Family 95% · 全系统 80%） | ✅ 完成 |
 | **Phase 3** | 质量工程（React Testing Library 组件测试 + Playwright E2E） | ✅ 完成 |

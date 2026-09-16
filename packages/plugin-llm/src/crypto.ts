@@ -43,6 +43,64 @@ function base64ToBuf(b64: string): Uint8Array {
   return bytes;
 }
 
+// ============================================================
+// 运行时自检 — WebCrypto 可用性前置校验 + 降级告警
+// 非 HTTPS (非 localhost) 环境 / 过旧浏览器下 crypto.subtle 为 undefined,
+// 加密将在 deep 处抛含糊错误; 启动时显式检测, 给出可操作的降级指引
+// ============================================================
+
+export interface WebCryptoCheck {
+  ok: boolean;
+  /** ok=false 时的降级原因 */
+  reason?: string;
+}
+
+/** 缓存自检结果, 避免每次加解密重复检测 */
+let cryptoCheckCache: WebCryptoCheck | null = null;
+
+/**
+ * 校验 WebCrypto (crypto.subtle) 运行时可用性
+ * 失败场景: 非 HTTPS 非 localhost / http 内网 IP 访问 / 极旧浏览器
+ */
+export function checkWebCrypto(): WebCryptoCheck {
+  if (cryptoCheckCache) return cryptoCheckCache;
+
+  const result: WebCryptoCheck = (() => {
+    if (typeof crypto === "undefined") {
+      return { ok: false, reason: "Web Crypto API 不可用: 当前环境无 crypto 全局对象 (浏览器过旧?)" };
+    }
+    if (!crypto.subtle) {
+      const isLocalhost = typeof location !== "undefined" &&
+        (location.hostname === "localhost" || location.hostname === "127.0.0.1");
+      return {
+        ok: false,
+        reason: isLocalhost
+          ? "crypto.subtle 不可用: 请升级浏览器"
+          : "crypto.subtle 不可用: Web Crypto 仅在安全上下文 (HTTPS 或 localhost) 提供 — 请通过 HTTPS 访问, API Key 加密存储已降级为不可用",
+      };
+    }
+    // AES-GCM + PBKDF2 算法能力探测 (Safari 旧版有 subtle 但缺算法)
+    try {
+      crypto.getRandomValues(new Uint8Array(1));
+      return { ok: true };
+    } catch {
+      return { ok: false, reason: "crypto.getRandomValues 不可用: 安全随机数源缺失" };
+    }
+  })();
+
+  cryptoCheckCache = result;
+  if (!result.ok) {
+    // 降级告警 — 高安全要求下显式暴露而非静默失败
+    console.warn(`[plugin-llm/crypto] ⚠️ ${result.reason}`);
+  }
+  return result;
+}
+
+/** 供调用方 (SettingsPanel 等) 在渲染加密 UI 前快速判断 */
+export function isWebCryptoAvailable(): boolean {
+  return checkWebCrypto().ok;
+}
+
 /**
  * 通过用户口令派生 AES-256-GCM 密钥
  */
@@ -124,7 +182,7 @@ export async function decryptString(encryptedBase64: string, passphrase: string)
 
     return dec.decode(plaintext);
   } catch (err) {
-    throw new Error(`AES-GCM 解密失败: ${(err as Error).message}`);
+    throw new Error(`AES-GCM 解密失败: ${(err as Error).message}`, { cause: err });
   }
 }
 

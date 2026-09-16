@@ -93,22 +93,22 @@
         "./packages/plugin-llm/src/*"
       ],
       "@yyc3/family-core": [
-        "./packages/family-core/src"
+        "./docs/packages/family-core/src"
       ],
       "@yyc3/family-core/*": [
-        "./packages/family-core/src/*"
+        "./docs/packages/family-core/src/*"
       ],
       "@yyc3/family-agents": [
-        "./packages/family-agents/src"
+        "./docs/packages/family-agents/src"
       ],
       "@yyc3/family-agents/*": [
-        "./packages/family-agents/src/*"
+        "./docs/packages/family-agents/src/*"
       ],
       "@yyc3/family-skills": [
-        "./packages/family-skills/src"
+        "./docs/packages/family-skills/src"
       ],
       "@yyc3/family-skills/*": [
-        "./packages/family-skills/src/*"
+        "./docs/packages/family-skills/src/*"
       ]
     }
   },

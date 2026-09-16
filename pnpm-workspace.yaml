@@ -1,19 +1,38 @@
 packages:
   # docs/packages/* 为 family-* 包的权威实现（含完整引擎+架构常量）
-  # 排除根 packages/family-* 以避免 workspace 命名冲突
   - "docs/packages/*"
   - "apps/*"
   - "packages/*"
-  - "!packages/family-core"
-  - "!packages/family-agents"
-  - "!packages/family-skills"
 
-# pnpm 11+ 构建脚本白名单（替代旧 pnpm.onlyBuiltDependencies）
-onlyBuiltDependencies:
-  - "@swc/core"
-  - esbuild
+# pnpm 11+: 构建脚本白名单 (allowBuilds 替代已移除的 onlyBuiltDependencies)
+allowBuilds:
+  "@swc/core": true
+  esbuild: true
 
 # pnpm 11+ 统一依赖覆盖（替代旧 package.json pnpm.overrides）
+# 原则: override 一律锁大版本 (^x.y.z)。
+# 教训: 开放式 >= 范围会被解析到大版本跳跃 — undici@8 移除 jsdom 深路径、
+# ajv@8 破坏 eslint 深路径 require、brace-expansion 大版本间 API 不兼容 (expand 导出)
 overrides:
   react: "^19.0.0"
   react-dom: "^19.0.0"
+  # 安全: react-router <7.18.2 存在高位漏洞 (patched >=7.18.2)
+  "react-router": "^7.18.2"
+  "react-router-dom": "^7.18.2"
+  # 安全: 传递依赖已知漏洞修复线 (锁大版本, 防深路径解析破坏)
+  postcss: "^8.5.18"
+  nanoid: "^3.3.16"
+  browserslist: "^4.28.7"
+  tar: "^7.5.21"
+  path-to-regexp: "^6.3.0"
+  # brace-expansion: minimatch@10 需 v5 的 expand 导出; >=5.0.12 覆盖全部已知 advisory
+  "brace-expansion": ">=5.0.12"
+  # undici: 锁 7.x 修复线 (jsdom@29 深路径依赖 7.x 内部结构, 禁止跳 8)
+  undici: "^7.29.1"
+  # @vercel/node 工具链: tsx 升级带动 esbuild 到修复线 (~0.28.0)
+  tsx: "^4.23.13"
+  # esbuild 漏洞线在 0.27.x (@vercel/node 直依赖) — 选择器限定;
+  # 不可全局 override: vite@6 依赖 ^0.25, 强推 0.28 会破坏 transform (destructuring 报错)
+  "esbuild@>=0.27.0 <0.28.0": ">=0.28.1"
+  # @vercel/static-config 声明 ajv@8.6.3 → 8.x 系内升级; 选择器限定, 不碰 eslint 依赖的 ajv@6
+  "ajv@8.x": "^8.18.0"

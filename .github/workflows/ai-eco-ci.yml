@@ -12,24 +12,27 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  NODE_VERSION: "20"
-  PNPM_VERSION: "9.15.0"
+  # pnpm 版本由根 package.json 的 packageManager 字段唯一驱动 (SSOT)
+  # pnpm/action-setup@v4 不传 version 时自动读取 packageManager
+  NODE_VERSION: "22"
+
+# 工作流级最小权限 (各 job 按 least-privilege 提升)
+permissions:
+  contents: read
 
 jobs:
   # ============================================================
-  # Job 1: 质量门禁 (类型 + Lint + 单元测试)
+  # Job 1: 质量门禁 (类型 + Lint + 单元测试 + Family 引擎门禁)
   # ============================================================
   quality:
     name: 🔍 质量门禁 (TS + Lint + Vitest)
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup pnpm
+      - name: Setup pnpm (version from packageManager field)
         uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -37,7 +40,10 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Install deps
+      - name: Verify pnpm version aligns with lockfile
+        run: pnpm --version
+
+      - name: Install deps (frozen)
         run: pnpm install --frozen-lockfile
 
       - name: Type Check
@@ -46,8 +52,15 @@ jobs:
       - name: Lint
         run: pnpm lint
 
-      - name: Unit Tests (Vitest)
+      - name: Unit Tests (Vitest — packages + apps)
         run: pnpm test --run
+
+      - name: Family Engine Gate (core → agents → skills → integration)
+        run: |
+          pnpm --filter "@yyc3/family-core" test
+          pnpm --filter "@yyc3/family-agents" test
+          pnpm --filter "@yyc3/family-skills" test
+          pnpm --filter "@yyc3/family-integration-tests" test
 
       - name: Test Coverage
         run: pnpm test:coverage
@@ -78,15 +91,13 @@ jobs:
           - standalone-ai-family
           - standalone-dev
           - standalone-admin
-          - standalone-dynasty
+          - standalone-business
           - full
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup pnpm
+      - name: Setup pnpm (version from packageManager field)
         uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -94,7 +105,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Install deps
+      - name: Install deps (frozen)
         run: pnpm install --frozen-lockfile
 
       - name: Build @yyc3/app-${{ matrix.app }}
@@ -118,10 +129,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup pnpm
+      - name: Setup pnpm (version from packageManager field)
         uses: pnpm/action-setup@v4
-        with:
-          version: ${{ env.PNPM_VERSION }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -129,7 +138,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Install deps
+      - name: Install deps (frozen)
         run: pnpm install --frozen-lockfile
 
       - name: Download full app build
@@ -153,7 +162,9 @@ jobs:
           retention-days: 14
 
   # ============================================================
-  # Job 4: 安全审计 (依赖扫描)
+  # Job 4: 安全审计 (依赖扫描 + 密钥扫描)
+  # 门禁语义: audit/Gitleaks 失败 = 阻塞 (security 进入 deploy needs 链)
+  # Snyk 可选 (无 Token 时自动跳过), 失败不阻塞但产出趋势报告
   # ============================================================
   security:
     name: 🔒 安全审计
@@ -162,11 +173,11 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
         with:
-          version: ${{ env.PNPM_VERSION }}
+          fetch-depth: 0  # Gitleaks 需要完整历史以扫描全部 commit
+
+      - name: Setup pnpm (version from packageManager field)
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -174,14 +185,28 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      - name: Install deps
+      - name: Install deps (frozen)
         run: pnpm install --frozen-lockfile
 
-      - name: pnpm audit (high/critical)
-        run: pnpm audit --audit-level=high
-        continue-on-error: true
+      - name: pnpm audit (high/critical — 阻塞门禁)
+        run: |
+          pnpm audit --audit-level=high --json > audit-report.json || AUDIT_FAILED=1
+          pnpm audit --audit-level=high
+          if [ "${AUDIT_FAILED:-0}" -eq 1 ]; then
+            echo "::error::pnpm audit 发现 high/critical 漏洞, 阻塞合并"
+            exit 1
+          fi
 
-      - name: Snyk security scan
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-report
+          path: audit-report.json
+          retention-days: 30
+
+      - name: Snyk security scan (可选 — 无 Token 自动跳过)
+        if: env.SNYK_TOKEN != ''
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -189,14 +214,13 @@ jobs:
           args: --severity-threshold=high --org=yyc3
         continue-on-error: true
 
-      - name: Secret scan (Gitleaks)
+      - name: Secret scan (Gitleaks — 阻塞门禁)
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
 
   # ============================================================
-  # Job 5: Lighthouse 性能基线
+  # Job 5: Lighthouse 性能基线 (仅 PR 报告, 不阻塞部署)
   # ============================================================
   lighthouse:
     name: ⚡ Lighthouse 性能基线
@@ -204,6 +228,7 @@ jobs:
     needs: build
     timeout-minutes: 15
     if: github.event_name == 'pull_request'
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
 
@@ -247,11 +272,13 @@ jobs:
 
   # ============================================================
   # Job 7: 部署到 Vercel (main 推送时)
+  # 依赖硬性门禁: quality/build/e2e/security/docker
+  # (lighthouse 为 PR 报告性质, 不阻塞生产部署)
   # ============================================================
   deploy:
     name: 🚀 部署 Vercel (生产)
     runs-on: ubuntu-latest
-    needs: [quality, build, e2e, security, lighthouse]
+    needs: [quality, build, e2e, security, docker]
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: production
@@ -271,7 +298,7 @@ jobs:
           scope: ${{ secrets.VERCEL_ORG_ID }}
 
   # ============================================================
-  # Job 8: 插件完整性检查 (所有插件 register.ts 存在)
+  # Job 8: 插件完整性检查 (所有插件 index.ts 存在)
   # ============================================================
   ecosystem-check:
     name: 🌐 插件完整性检查
@@ -280,16 +307,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Verify file structure
-        run: node validate-ecosystem.js || true
-
       - name: Check all plugins
         run: |
-          echo "🔍 检查所有插件的 register.ts + index.ts"
-          for plugin in plugin-ai-family plugin-dynasty plugin-monitor plugin-ops plugin-ai plugin-dev plugin-admin plugin-target plugin-cost plugin-marketing plugin-prompt plugin-llm; do
-            if [ -d "packages/$plugin" ]; then
-              test -f "packages/$plugin/src/index.ts" || (echo "❌ Missing: $plugin/src/index.ts" && exit 1)
+          echo "🔍 检查所有插件的 index.ts"
+          fail=0
+          for dir in packages/plugin-*; do
+            plugin=$(basename "$dir")
+            if [ ! -f "packages/$plugin/src/index.ts" ]; then
+              echo "❌ Missing: $plugin/src/index.ts"
+              fail=1
+            else
               echo "✅ $plugin OK"
             fi
           done
-          echo "🎉 所有插件完整性检查通过"
+          [ "$fail" -eq 0 ] && echo "🎉 所有插件完整性检查通过" || exit 1

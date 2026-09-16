@@ -4,11 +4,25 @@
  */
 import { describe, expect, it } from "vitest";
 import {
+  checkWebCrypto,
   decryptString,
   encryptString,
   generateDemoKey,
   getDeviceFingerprint,
+  isWebCryptoAvailable,
 } from "./src/crypto";
+
+describe("WebCrypto 运行时自检", () => {
+  it("Node/jsdom 安全上下文应自检通过", () => {
+    const check = checkWebCrypto();
+    expect(check.ok).toBe(true);
+    expect(check.reason).toBeUndefined();
+  });
+
+  it("isWebCryptoAvailable 应与 checkWebCrypto().ok 一致", () => {
+    expect(isWebCryptoAvailable()).toBe(checkWebCrypto().ok);
+  });
+});
 
 describe("AES-256-GCM 加密", () => {
   const PASSPHRASE = "yyc3-test-passphrase-2026";
@@ -69,11 +83,13 @@ describe("AES-256-GCM 加密", () => {
 });
 
 describe("设备指纹", () => {
-  it("应返回稳定指纹 (同一 window 对象)", () => {
+  it("应返回稳定指纹 (同环境重复调用一致)", () => {
     const fp1 = getDeviceFingerprint();
     const fp2 = getDeviceFingerprint();
     expect(fp1).toBe(fp2);
-    expect(fp1.startsWith("yyc3-fp-")).toBe(true);
+    // 浏览器环境返回 yyc3-fp-<hash>; Node/SSR 环境返回服务端回退值
+    const isBrowser = typeof window !== "undefined";
+    expect(fp1.startsWith(isBrowser ? "yyc3-fp-" : "yyc3-server-fallback")).toBe(true);
   });
 });
 

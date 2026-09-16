@@ -19,5 +19,6 @@ test-results
 .env.*.local
 .letsencrypt
 README*.md
-docs/
+docs/*
+!docs/packages
 e2e/

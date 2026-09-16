@@ -17,10 +17,10 @@ export default defineConfig({
       "@yyc3/plugin-marketing": path.resolve(__dirname, "packages/plugin-marketing/src"),
       "@yyc3/plugin-prompt": path.resolve(__dirname, "packages/plugin-prompt/src"),
       "@yyc3/plugin-llm": path.resolve(__dirname, "packages/plugin-llm/src"),
-      "@yyc3/family-core": path.resolve(__dirname, "packages/family-core/src"),
-      "@yyc3/family-agents": path.resolve(__dirname, "packages/family-agents/src"),
+      "@yyc3/family-core": path.resolve(__dirname, "docs/packages/family-core/src"),
+      "@yyc3/family-agents": path.resolve(__dirname, "docs/packages/family-agents/src"),
 
-      "@yyc3/family-skills": path.resolve(__dirname, "packages/family-skills/src"),
+      "@yyc3/family-skills": path.resolve(__dirname, "docs/packages/family-skills/src"),
     },
   },
   test: {
@@ -28,5 +28,19 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./test-setup.ts"],
     include: ["packages/**/*.test.*", "apps/**/*.test.*"],
+    coverage: {
+      provider: "v8",
+      // 只统计根 workspace 的 packages/apps 源码, 排除 docs/ 与构建产物 dist
+      include: ["packages/*/src/**", "apps/*/src/**"],
+      exclude: ["**/dist/**", "**/node_modules/**"],
+      // 防回退阈值 (vitest@4 v8 归一化口径实测基线: lines 61/branch 52/func 42,
+      // 留余量起步, 渐进收紧)
+      thresholds: {
+        lines: 55,
+        branches: 48,
+        functions: 38,
+        statements: 50,
+      },
+    },
   },
 });

@@ -4,24 +4,32 @@
 # ============================================================
 
 # ===== Stage 1: deps (基础依赖) =====
-FROM node:20-alpine AS deps
+# pnpm 11 要求 Node 22+; pnpm 版本由 packageManager 字段 SSOT 驱动
+FROM node:22-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# 启用 corepack + pnpm
-RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
+# 启用 corepack + pnpm (版本与 packageManager 严格一致)
+RUN corepack enable
 
-# 先复制 lockfile 利用 Docker 层缓存
+# 先复制清单文件利用 Docker 层缓存 (含全部 workspace 成员, frozen-lockfile 才能通过)
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY docs/packages/family-core/package.json ./docs/packages/family-core/
+COPY docs/packages/family-agents/package.json ./docs/packages/family-agents/
+COPY docs/packages/family-skills/package.json ./docs/packages/family-skills/
+COPY docs/packages/family-ui/package.json ./docs/packages/family-ui/
+COPY docs/packages/ai-assistant/package.json ./docs/packages/ai-assistant/
+COPY docs/packages/a2a-adapter/package.json ./docs/packages/a2a-adapter/
+COPY docs/packages/family-integration-tests/package.json ./docs/packages/family-integration-tests/
 COPY apps/full/package.json ./apps/full/
 COPY packages/shell/package.json ./packages/shell/
 COPY packages/plugin-ai-family/package.json ./packages/plugin-ai-family/
-COPY packages/plugin-dynasty/package.json ./packages/plugin-dynasty/
 COPY packages/plugin-monitor/package.json ./packages/plugin-monitor/
 COPY packages/plugin-ops/package.json ./packages/plugin-ops/
 COPY packages/plugin-ai/package.json ./packages/plugin-ai/
 COPY packages/plugin-dev/package.json ./packages/plugin-dev/
 COPY packages/plugin-admin/package.json ./packages/plugin-admin/
+COPY packages/plugin-business/package.json ./packages/plugin-business/
 COPY packages/plugin-target/package.json ./packages/plugin-target/
 COPY packages/plugin-cost/package.json ./packages/plugin-cost/
 COPY packages/plugin-marketing/package.json ./packages/plugin-marketing/
@@ -31,8 +39,8 @@ COPY packages/plugin-llm/package.json ./packages/plugin-llm/
 RUN pnpm install --frozen-lockfile --prefer-offline
 
 # ===== Stage 2: builder =====
-FROM node:20-alpine AS builder
-RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
+FROM node:22-alpine AS builder
+RUN corepack enable
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules

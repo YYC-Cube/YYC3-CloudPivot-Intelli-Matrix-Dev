@@ -12,9 +12,18 @@
  * ============================================================
  */
 
+import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
+// 依赖包 (core/agents) 的 main 指向 dist 构建产物;
+// 测试直接消费 TS 源码, 不依赖预构建 (CI 干净环境可跑)
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@yyc3/family-core': path.resolve(__dirname, '../family-core/src/index.ts'),
+      '@yyc3/family-agents': path.resolve(__dirname, '../family-agents/src/index.ts'),
+    },
+  },
   test: {
     environment: 'node',
     include: ['tests/**/*.test.ts'],

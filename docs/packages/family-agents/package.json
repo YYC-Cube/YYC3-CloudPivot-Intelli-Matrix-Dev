@@ -15,8 +15,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.2",
-    "@yyc3/family-skills": "workspace:*",
     "typescript": "^5.9.0",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.11"
   }
 }

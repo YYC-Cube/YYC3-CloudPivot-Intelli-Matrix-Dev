@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "types": ["node"],
+    "paths": {
+      "@yyc3/family-agents": ["../family-agents/src/index.ts"],
+      "@yyc3/family-skills": ["../family-skills/src/index.ts"],
+      "@yyc3/family-core": ["../family-core/src/index.ts"]
+    }
+  },
+  "include": ["tests/**/*.ts"]
+}

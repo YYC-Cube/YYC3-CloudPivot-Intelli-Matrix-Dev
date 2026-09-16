@@ -78,7 +78,10 @@ export {
   decryptString,
   getDeviceFingerprint,
   generateDemoKey,
+  checkWebCrypto,
+  isWebCryptoAvailable,
 } from "./crypto";
+export type { WebCryptoCheck } from "./crypto";
 
 export {
   APIKeyManager,

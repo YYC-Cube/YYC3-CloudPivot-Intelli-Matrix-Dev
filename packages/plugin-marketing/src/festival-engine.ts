@@ -27,13 +27,7 @@ export function resolveFestivalDate(festival: Festival, year: number): Date {
   }
 
   // 农历节日：先尝试当年，再处理腊月跨年
-  let lunarYear = year;
-  if (festival.lunarMonth === 12) {
-    // 腊月节日属于该公历年的农历年
-    // 例如：2026公历年的腊八节属于2026农历年的腊月初八
-    // 但腊月初八可能落在2027年1月
-  }
-
+  const lunarYear = year;
   return lunarToSolar(lunarYear, festival.lunarMonth!, festival.lunarDay!, false);
 }
 

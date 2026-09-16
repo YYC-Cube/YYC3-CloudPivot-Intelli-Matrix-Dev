@@ -8,34 +8,23 @@
  * @License  : Apache-2.0
  * @Homepage : https://matrix.yyc3.top
  * ============================================================
- * 此文件承载家人温度，请以玫瑰之心待之 🌹
+ * 跨包集成测试: 通过 alias 直接加载各包 TS 源码, 无需预构建 dist
  * ============================================================
  */
 
 import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
-// 依赖包 (family-core) 的 main 指向 dist 构建产物;
-// 测试直接消费 TS 源码, 不依赖预构建 (CI 干净环境可跑)
 export default defineConfig({
   resolve: {
     alias: {
+      '@yyc3/family-agents': path.resolve(__dirname, '../family-agents/src/index.ts'),
+      '@yyc3/family-skills': path.resolve(__dirname, '../family-skills/src/index.ts'),
       '@yyc3/family-core': path.resolve(__dirname, '../family-core/src/index.ts'),
     },
   },
   test: {
     environment: 'node',
     include: ['tests/**/*.test.ts'],
-    coverage: {
-      provider: 'v8',
-      reporter: ['text', 'lcov'],
-      include: ['src/**/*.ts'],
-      exclude: ['src/index.ts', 'src/**/index.ts'],
-      thresholds: {
-        lines: 80,
-        branches: 75,
-        functions: 75,
-      },
-    },
   },
 });

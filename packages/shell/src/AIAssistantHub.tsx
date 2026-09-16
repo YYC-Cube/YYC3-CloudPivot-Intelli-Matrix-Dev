@@ -176,9 +176,11 @@ export function AIAssistantHub({
 
   useEffect(() => {
     // 启动时检测 LLM 可用性
+    let alive = true; // 卸载防护: 异步回调不得在组件卸载后 setState
     const b = getBridge();
     if (!b) { setLlmStatus("mock"); return; }
     b.init().then(() => {
+      if (!alive) return;
       if (b.isRealLLMAvailable()) {
         setLlmStatus("real");
         const providers = b.listProviders();
@@ -186,8 +188,13 @@ export function AIAssistantHub({
       } else {
         setLlmStatus("mock");
       }
-    }).catch(() => setLlmStatus("mock"));
+    }).catch(() => { if (alive) setLlmStatus("mock"); });
+    return () => { alive = false; };
   }, [getBridge]);
+
+  // 组件级卸载标记: send() 等异步流程在卸载后不得再 setState
+  const mountedRef = useRef(true);
+  useEffect(() => () => { mountedRef.current = false; }, []);
 
   const send = useCallback(async (content: string) => {
     if (!content.trim()) return;
@@ -237,6 +244,7 @@ export function AIAssistantHub({
       }
     } catch (err) {
       // 错误回退 Mock
+      if (!mountedRef.current) return;
       const fallback = (customMock ?? mockResponse)(content);
       setMessages(prev => {
         const next = [...prev];
@@ -245,7 +253,7 @@ export function AIAssistantHub({
         return next;
       });
     }
-    setIsTyping(false);
+    if (mountedRef.current) setIsTyping(false);
   }, [customMock, getBridge, messages, systemPrompt]);
 
   const handleKey = (e: React.KeyboardEvent) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); } };

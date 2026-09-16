@@ -22,18 +22,18 @@ interface LunarYearData {
 }
 
 const LUNAR_DATA: Record<number, LunarYearData> = {
-  2024: { year: 2024, springFestival: { month: 2, day: 10 }, leapMonth: 0, monthDays: [30,29,30,29,30,29,30,29,30,29,30,30] },
-  2025: { year: 2025, springFestival: { month: 1, day: 29 }, leapMonth: 6, monthDays: [30,29,30,29,30,29,30,29,30,29,30,29,30] },
-  2026: { year: 2026, springFestival: { month: 2, day: 17 }, leapMonth: 0, monthDays: [30,29,30,30,29,30,29,30,29,30,29,30] },
-  2027: { year: 2027, springFestival: { month: 2, day: 6 },  leapMonth: 0, monthDays: [30,29,30,29,30,30,29,30,29,30,29,30] },
-  2028: { year: 2028, springFestival: { month: 1, day: 26 }, leapMonth: 0, monthDays: [30,29,30,29,30,29,30,30,29,30,29,30] },
-  2029: { year: 2029, springFestival: { month: 2, day: 13 }, leapMonth: 0, monthDays: [30,29,30,30,29,30,29,30,29,30,29,30] },
-  2030: { year: 2030, springFestival: { month: 2, day: 3 },  leapMonth: 0, monthDays: [30,29,30,29,30,30,29,30,29,30,29,30] },
+  2024: { year: 2024, springFestival: { month: 2, day: 10 }, leapMonth: 0, monthDays: [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 30] },
+  2025: { year: 2025, springFestival: { month: 1, day: 29 }, leapMonth: 6, monthDays: [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30] },
+  2026: { year: 2026, springFestival: { month: 2, day: 17 }, leapMonth: 0, monthDays: [30, 29, 30, 30, 29, 30, 29, 30, 29, 30, 29, 30] },
+  2027: { year: 2027, springFestival: { month: 2, day: 6 }, leapMonth: 0, monthDays: [30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30] },
+  2028: { year: 2028, springFestival: { month: 1, day: 26 }, leapMonth: 0, monthDays: [30, 29, 30, 29, 30, 29, 30, 30, 29, 30, 29, 30] },
+  2029: { year: 2029, springFestival: { month: 2, day: 13 }, leapMonth: 0, monthDays: [30, 29, 30, 30, 29, 30, 29, 30, 29, 30, 29, 30] },
+  2030: { year: 2030, springFestival: { month: 2, day: 3 }, leapMonth: 0, monthDays: [30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30] },
 };
 
-const LUNAR_MONTH_NAMES = ["正","二","三","四","五","六","七","八","九","十","冬","腊"];
-const LUNAR_DAY_PREFIX = ["初","十","廿","卅"];
-const LUNAR_DAY_NUM = ["","一","二","三","四","五","六","七","八","九","十"];
+const LUNAR_MONTH_NAMES = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "冬", "腊"];
+const LUNAR_DAY_PREFIX = ["初", "十", "廿", "卅"];
+const LUNAR_DAY_NUM = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
 
 // ============================================================
 // 农历日 → 公历日（指定农历年）
@@ -95,7 +95,6 @@ export function solarToLunar(solarDate: Date): { year: number; month: number; da
   // 遍历农历月，找到目标月和日
   let remainingDays = diffDays;
   let lunarMonth = 0;
-  let isLeap = false;
 
   const totalMonths = data.monthDays.length;
   for (let i = 0; i < totalMonths; i++) {
@@ -108,18 +107,13 @@ export function solarToLunar(solarDate: Date): { year: number; month: number; da
     lunarMonth = i + 1;
   }
 
-  // 处理闰月标记
-  if (data.leapMonth > 0 && lunarMonth > data.leapMonth) {
-    // 可能是闰月
-  }
-
   const lunarDay = remainingDays + 1;
 
   return {
     year: lunarYear,
     month: lunarMonth + 1,
     day: lunarDay,
-    isLeap,
+    isLeap: false,
     monthName: LUNAR_MONTH_NAMES[lunarMonth] || `${lunarMonth + 1}月`,
     dayName: formatLunarDay(lunarDay),
   };

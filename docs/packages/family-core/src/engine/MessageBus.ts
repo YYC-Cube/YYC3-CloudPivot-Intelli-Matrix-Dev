@@ -282,12 +282,12 @@ export class MessageBus extends EventEmitter {
       if (entry.nextRetryAt && entry.nextRetryAt > new Date()) {
         const delay = entry.nextRetryAt.getTime() - Date.now();
         if (delay > 0) {
-          await new Promise((resolve) => setTimeout(resolve, Math.min(delay, 1000)));
+          // sleep 到底: setTimeout 至少延迟 1ms 才触发, 若 delay<=1ms 直接自旋等待
+          // (此处最长 1s, 因 calculateNextRetry 的 backoff 上限远大于 1s)
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
-        // 延迟后重新检查
-        if (entry.nextRetryAt > new Date()) {
-          break;
-        }
+        // 时间到即处理 — 不再二次检查: 计时器漂移导致的毫秒级未到期
+        // 若 break 而不重新调度, 消息将永久滞留 (liveness bug), 直至下次 publish
       }
 
       // 从堆顶取出

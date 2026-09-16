@@ -36,3 +36,8 @@ overrides:
   "esbuild@>=0.27.0 <0.28.0": ">=0.28.1"
   # @vercel/static-config 声明 ajv@8.6.3 → 8.x 系内升级; 选择器限定, 不碰 eslint 依赖的 ajv@6
   "ajv@8.x": "^8.18.0"
+
+# pnpm 11+ 供应链策略: minimumReleaseAge (默认 1440 分钟=24h) 会拒绝发布不足 24h 的锁定条目,
+# 导致 CI frozen install 时敏性失败 (react-router/electron-to-chromium 等日更数据包必踩)。
+# 显式放宽为 60 分钟 — 保留"防发布即投毒"防线, 消除时敏 flaky
+minimumReleaseAge: 60

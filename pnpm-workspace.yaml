@@ -29,13 +29,11 @@ overrides:
   "brace-expansion": ">=5.0.12"
   # undici: 锁 7.x 修复线 (jsdom@29 深路径依赖 7.x 内部结构, 禁止跳 8)
   undici: "^7.29.1"
-  # @vercel/node 工具链: tsx 升级带动 esbuild 到修复线 (~0.28.0)
+  # tsx: postcss-load-config (tsup/vite 生态) 深路径依赖, 锁修复线
   tsx: "^4.23.13"
-  # esbuild 漏洞线在 0.27.x (@vercel/node 直依赖) — 选择器限定;
+  # esbuild 漏洞线在 0.27.x (tsup@8.5.1 直依赖) — 选择器限定;
   # 不可全局 override: vite@6 依赖 ^0.25, 强推 0.28 会破坏 transform (destructuring 报错)
   "esbuild@>=0.27.0 <0.28.0": ">=0.28.1"
-  # @vercel/static-config 声明 ajv@8.6.3 → 8.x 系内升级; 选择器限定, 不碰 eslint 依赖的 ajv@6
-  "ajv@8.x": "^8.18.0"
 
 # pnpm 11+ 供应链策略: minimumReleaseAge (默认 1440 分钟=24h) 会拒绝发布不足 24h 的锁定条目,
 # 导致 CI frozen install 时敏性失败 (react-router/electron-to-chromium 等日更数据包必踩)。

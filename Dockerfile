@@ -75,7 +75,7 @@ server {
     gzip_min_length 1024;
     gzip_types text/plain text/css application/json application/javascript application/wasm text/javascript image/svg+xml;
 
-    # ===== 安全头 (与 vercel.json 一致) =====
+    # ===== 安全头 =====
     add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://api.openai.com https://api.anthropic.com https://dashscope.aliyuncs.com https://api.deepseek.com https://api.moonshot.cn; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-Frame-Options "DENY" always;

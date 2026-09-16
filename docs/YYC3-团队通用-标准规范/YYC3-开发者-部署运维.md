@@ -215,7 +215,6 @@ services:
 
 | 平台 | 优势 | 配置 |
 |------|------|------|
-| **Vercel** | 零配置 + 自动部署 | 连接 Git 仓库即可 |
 | **Netlify** | 静态优化 + CDN | 设置 build 命令 |
 | **Cloudflare Pages** | 全球 CDN | 免费额度大 |
 

@@ -26,7 +26,7 @@ AI Family (中枢系统)
 ### 2.1 系统标识
 
 | 系统 | ID | 层级 | 路由前缀 |
-|------|----|------|---------|
+| ------ | ---- | ------ | --------- |
 | AI Family | `ai-family` | 中枢 | `/ai-family` |
 | 监控中心 | `monitor` | 子系统 | `/monitor` |
 | 运维管理 | `ops` | 子系统 | `/ops` |
@@ -62,7 +62,7 @@ pageKey        → 页面标识
 ### 2.3 颜色词库
 
 | 系统 | 主色 | 用途 |
-|------|------|------|
+| ------ | ------ | ------ |
 | AI Family | `#00FF88` | 中枢绿色 |
 | 监控中心 | `#00d4ff` | 青色 |
 | 运维管理 | `#FF6600` | 橙色 |
@@ -222,7 +222,7 @@ const persona = storage.get("activePersona", "meta-oracle");
 ### 4.3 关键存储字段
 
 | Key | 归属 | 类型 | 默认值 | 说明 |
-|-----|------|------|--------|------|
+| ----- | ------ | ------ | -------- | ------ |
 | `activePersona` | ai-family | string | `meta-oracle` | 当前活跃人格 |
 | `voiceProfiles` | ai-family | VoiceProfile[] | `[]` | 语音配置 |
 | `welcomeDismissed` | shell | boolean | `false` | 欢迎页已关闭 |
@@ -395,19 +395,18 @@ YYC3-CloudPivot-Intelli-Matrix-Dev/
 │   ├── standalone-ai/          ← AI 智能独立版
 │   ├── standalone-dev/         ← 开发工具独立版
 │   └── standalone-admin/      ← 系统管理独立版
-├── api/                        ← 【Phase 4】Vercel Serverless Function (chat/stream.ts)
 ├── e2e/                        ← Playwright (welcome-flow.spec.ts)
 ├── AIAssistant/                ← 原始 AI 助理组件 (legacy reference)
 ├── docs/                       ← 项目文档群 (5 份架构文档 + 4 份核心业务文档)
-├── .github/workflows/         ← 【Phase 4】CI/CD 8-job pipeline
-├── vercel.json + Dockerfile + docker-compose.yml + .lighthouserc.json  ← 【Phase 4】部署基线
+├── .github/workflows/         ← 【Phase 4】CI/CD pipeline
+├── Dockerfile + docker-compose.yml + .lighthouserc.json  ← 【Phase 4】部署基线
 └── test-setup.ts               ← Jest-DOM 匹配器 + scrollIntoView polyfill
 ```
 
 ### 8.2 测试基线矩阵（24 files / 294 tests / 100% ✅）
 
 | 包 | 测试文件 | 用例数 | 覆盖范围 |
-|----|---------|-------|---------|
+| ---- | --------- | ------- | --------- |
 | plugin-target | `target-engine.test.ts` + `engine-integration.test.ts` | 27 + 8 = 35 | X 公式 / 三阶段 / 月度节点 / 跨引擎联动 |
 | plugin-cost | `cost-engine.test.ts` | 30 | 城市指数 / 场地/设备/运营 / 盈亏 / 敏感性 |
 | plugin-marketing | `festival-engine.test.ts` | 41 | 6 类节日 / 农历转换 / 三阶段归属 / 动作模板 |
@@ -434,7 +433,7 @@ YYC3-CloudPivot-Intelli-Matrix-Dev/
 ### 8.4 核心业务文档衔接矩阵
 
 | 文档 | 插件包 | 公开 API | 行数 | 衔接状态 |
-|------|--------|---------|------|---------|
+| ------ | -------- | --------- | ------ | --------- |
 | 《My-经管运维-目标量化》 | plugin-target | `calc/splitPhases/splitMonthly/validate` | 236 | ✅ |
 | 《My-成本盈亏-计算工具》 | plugin-cost | `calcCityCostIndex/calcTotalCost/analyzeProfit` | 2020 | ✅ |
 | 《My-营销工具-构建方案》 | plugin-marketing | `buildFestivalCalendar/filterByStage/getDefaultActions` | 489 | ✅ |
@@ -443,21 +442,21 @@ YYC3-CloudPivot-Intelli-Matrix-Dev/
 ### 8.5 阶段里程碑
 
 | 里程碑 | 内容 | 状态 |
-|--------|------|------|
+| -------- | ------ | ------ |
 | M1-M7 | 架构 + Shell + 7 插件 + 双主题 + Figma 规范 | ✅ |
 | M8-M12 | Phase 2 功能完整性 + Hub 命令联动 + 206 tests | ✅ |
 | **M13** | **Phase 3 质量工程完成** (RTL + Playwright + 230 tests + 4 文档衔接) | ✅ |
-| **M14** | **Phase 4 生态闭环完成** (plugin-llm + SSE + AES-256-GCM + Vercel + Docker + CI/CD 8-job + Lighthouse + 294 tests) | ✅ |
+| **M14** | **Phase 4 生态闭环完成** (plugin-llm + SSE + AES-256-GCM + Docker + CI/CD + Lighthouse + 294 tests) | ✅ |
 
 ### 8.6 Phase 4 关键架构演进
 
 | 演进点 | 原架构 | Phase 4 新架构 | 价值 |
-|--------|--------|-------------|------|
+| -------- | -------- | ------------- | ------ |
 | AIAssistantHub | Mock-only | Mock + Real LLM 回退 | 渐进增强 |
 | 流式输出 | setTimeout 模拟 | SSE Token-by-Token | 真实体验 |
 | API Key 存储 | localStorage 明文 | AES-256-GCM + Keyring | 安全合规 |
 | LLM Provider | 单一 | 5 Provider 路由 (cost/latency/quality) | 灵活可控 |
-| 部署 | dev-only | Vercel + Docker + CI/CD 8-job | 生产可用 |
+| 部署 | dev-only | Docker + CI/CD | 生产可用 |
 | 安全 | 基础 | CSP/CORS/XSS/Rate Limit/Dep Scan | 全方位加固 |
 | 性能 | 未度量 | Lighthouse 基线 (LCP<2.5s) | 可度量 |
 | 类型补全 | @testing-library/jest-dom 隐式依赖 jest | +@types/jest 占位 | IDE 诊断零错误 |
@@ -465,7 +464,7 @@ YYC3-CloudPivot-Intelli-Matrix-Dev/
 ### 8.7 Phase 4 类型系统修复记录
 
 | 问题 | 根因 | 修复 |
-|------|------|------|
+| ------ | ------ | ------ |
 | `jest.d.ts` 报 "找不到 jest 类型定义文件" | `@testing-library/jest-dom` 内部声明引用 jest 命名空间，项目用 vitest 未装 @types/jest | 安装 `@types/jest@29.5.14` devDependency |
 | `jest.d.ts` 报 "找不到名称 expect" | 同上，jest 全局未定义 | 同上，@types/jest 提供 expect 全局类型 |
 | 效果验证 | — | `pnpm type-check` 0 错误 / `pnpm test --run` 294/294 通过 |

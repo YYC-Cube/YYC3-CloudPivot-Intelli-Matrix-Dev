@@ -30,16 +30,19 @@ export default defineConfig({
     include: ["packages/**/*.test.*", "apps/**/*.test.*"],
     coverage: {
       provider: "v8",
-      // 只统计根 workspace 的 packages/apps 源码, 排除 docs/ 与构建产物 dist
-      include: ["packages/*/src/**", "apps/*/src/**"],
-      exclude: ["**/dist/**", "**/node_modules/**"],
-      // 防回退阈值 (vitest@4 v8 归一化口径实测基线: lines 61/branch 52/func 42,
-      // 留余量起步, 渐进收紧)
+      // 只统计根 workspace 的 packages/apps 源码; docs/ 有独立 Family Engine Gate 门禁
+      include: ["packages/*/src/**"],
+      // vitest v4 按已加载文件收集, include 的 glob 可命中任意层级 (如 docs/packages),
+      // 故显式排除 docs/apps/i18n 防止跨工作区模块污染分母
+      exclude: ["**/dist/**", "**/node_modules/**", "docs/**", "apps/**", "i18n/**"],
+      // P0 门禁 (2026-09-24 实测基线: lines 77/branch 62.7/func 65/stmt 72.2;
+      // 0% 洼地文件已补测, docs//apps 跨工作区污染分母已剔除)
+      // 阈值 = 基线 - 3pt 余量, 防回退而非追高; 渐进收紧策略见会话文档
       thresholds: {
-        lines: 55,
-        branches: 48,
-        functions: 38,
-        statements: 50,
+        lines: 74,
+        branches: 59,
+        functions: 62,
+        statements: 69,
       },
     },
   },

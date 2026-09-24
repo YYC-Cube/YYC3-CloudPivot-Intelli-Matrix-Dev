@@ -174,7 +174,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Gitleaks 需要完整历史以扫描全部 commit
+          fetch-depth: 0 # Gitleaks 需要完整历史以扫描全部 commit
 
       - name: Setup pnpm (version from packageManager field)
         uses: pnpm/action-setup@v4
@@ -218,6 +218,10 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # 规则: 继承 gitleaks 默认规则集, 项目误报豁免见 .gitleaks.toml
+        # (已核实: yyc3-* localStorage 键名被 generic-api-key 误判, 全历史扫描 0 leaks)
+        # push 事件 fetch-depth: 0 时为全历史扫描, 首次接入若报历史泄漏
+        # 依 gitleaks 官方流程处置 (轮换密钥 + .gitleaksignore 指纹), 不得直接关闭门禁
 
   # ============================================================
   # Job 5: Lighthouse 性能基线 (仅 PR 报告, 不阻塞部署)

@@ -704,6 +704,13 @@ importers:
       react-router-dom:
         specifier: ^7.18.2
         version: 7.18.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+    devDependencies:
+      tsup:
+        specifier: ^8.3.0
+        version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
 
 packages:
 

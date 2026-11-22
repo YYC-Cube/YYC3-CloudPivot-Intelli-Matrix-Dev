@@ -2,11 +2,42 @@
   "name": "@yyc3/plugin-ai-family",
   "version": "1.1.0",
   "description": "AI Family 子系统 — 中枢协同核心（从 @yyc3/family-core 读取家族宪章唯一真相源）",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit"
+  },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "lucide-react": "^0.500.0",
     "@yyc3/shell": "workspace:*",
     "@yyc3/family-core": "workspace:*"
-  }
+  },
+  "peerDependenciesMeta": {
+    "@yyc3/family-core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "sideEffects": false
 }

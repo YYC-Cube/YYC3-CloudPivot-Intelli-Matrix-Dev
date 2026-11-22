@@ -2,7 +2,26 @@
   "name": "@yyc3/shell",
   "version": "1.1.0",
   "description": "YYC³ 系统外壳 — 事件总线 + 存储 + 欢迎页 + LLM 桥接",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "test": "vitest run"
+  },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "lucide-react": "^0.500.0",
@@ -13,5 +32,14 @@
     "@yyc3/plugin-llm": {
       "optional": true
     }
-  }
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0",
+    "typescript": "^5.9.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "sideEffects": false
 }

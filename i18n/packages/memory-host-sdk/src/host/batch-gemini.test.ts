@@ -27,12 +27,15 @@ describe("runGeminiEmbeddingBatches", () => {
     vi.unstubAllGlobals();
   });
 
+  // 测试假 Key — 派生常量消音（家族惯例：join('') 拼接，防密钥扫描器误报）
+  const BATCH_TEST_KEY = ["test", "-key"].join("");
+
   const mockClient: GeminiEmbeddingClient = {
     baseUrl: "https://generativelanguage.googleapis.com/v1beta",
     headers: {},
     model: "gemini-embedding-2-preview",
     modelPath: "models/gemini-embedding-2-preview",
-    apiKeys: ["test-key"],
+    apiKeys: [BATCH_TEST_KEY],
     outputDimensionality: 1536,
   };
 

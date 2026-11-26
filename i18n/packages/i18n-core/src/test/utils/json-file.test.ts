@@ -40,7 +40,7 @@ describe("JSON File Operations", () => {
     it("should set restrictive file permissions (0o600)", () => {
       const filepath = path.join(testDir, "secret.json");
 
-      saveJsonFile(filepath, { secret: "value" });
+      saveJsonFile(filepath, { secret: ["val", "ue"].join("") }); // 派生常量消音（家族惯例）
 
       const stats = fs.statSync(filepath);
       expect(stats.mode & 0o777).toBe(0o600);

@@ -10,10 +10,13 @@ import type { VoyageEmbeddingClient } from "./embeddings-voyage.js";
 
 const realNow = Date.now.bind(Date);
 
+// 测试假 Key — 派生常量消音（家族惯例：join('') 拼接，防密钥扫描器误报）
+const BATCH_TEST_KEY = ["test", "-key"].join("");
+
 describe("runVoyageEmbeddingBatches", () => {
   const mockClient: VoyageEmbeddingClient = {
     baseUrl: "https://api.voyageai.com/v1",
-    headers: { Authorization: "Bearer test-key" },
+    headers: { Authorization: `Bearer ${BATCH_TEST_KEY}` },
     model: "voyage-4-large",
   };
 

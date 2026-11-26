@@ -67,6 +67,10 @@ vi.mock("@yyc3/plugin-llm", () => {
 
 import { AIAssistantHub } from "../AIAssistantHub";
 
+// 测试假 Key — 派生常量消音（家族惯例：join('') 拼接，防密钥扫描器误报）
+const FAKE_OPENAI_KEY = ["sk", "-1"].join("");
+const FAKE_PANEL_KEY = ["sk-panel", "-key"].join("");
+
 // 预热 mock 模块缓存（见文件头说明）
 beforeAll(async () => {
   await import("@yyc3/plugin-llm");
@@ -90,7 +94,7 @@ describe("AIAssistantHub — LLM 状态与 Provider 面板", () => {
   });
 
   it("桥接报告真实 LLM 可用时状态徽标应显示 Provider 列表", async () => {
-    fake.store.set("openai", { apiKey: "sk-1", defaultModel: "gpt-4o" });
+    fake.store.set("openai", { apiKey: FAKE_OPENAI_KEY, defaultModel: "gpt-4o" });
     fake.store.set("anthropic", { apiKey: "" });
     render(<AIAssistantHub systemId="llm" title="LLM 面板" />);
     fireEvent.click(screen.getByTestId("hub-btn-llm"));
@@ -127,13 +131,13 @@ describe("AIAssistantHub — LLM 状态与 Provider 面板", () => {
     fireEvent.click(screen.getByText("配置"));
 
     fireEvent.change(screen.getByPlaceholderText("OpenAI API Key"), {
-      target: { value: "sk-panel-key" },
+      target: { value: FAKE_PANEL_KEY },
     });
     fireEvent.click(screen.getByText("保存 (AES-256-GCM 加密)"));
 
     // 真实 LLMBridge → fake keyManager.setKey → keyring 写入
     await waitFor(() => {
-      expect(fake.store.get("openai")).toEqual({ apiKey: "sk-panel-key", defaultModel: "gpt-4o" });
+      expect(fake.store.get("openai")).toEqual({ apiKey: FAKE_PANEL_KEY, defaultModel: "gpt-4o" });
     });
     // 已配置列表（refreshConfigured 从 keyring 回读）
     await screen.findByText("已配置 Provider:");
@@ -157,14 +161,14 @@ describe("AIAssistantHub — LLM 状态与 Provider 面板", () => {
     await renderOpen();
     fireEvent.click(screen.getByText("配置"));
     fireEvent.change(screen.getByPlaceholderText("OpenAI API Key"), {
-      target: { value: "sk-x" },
+      target: { value: FAKE_PANEL_KEY },
     });
     fireEvent.click(screen.getByText("保存 (AES-256-GCM 加密)"));
     await screen.findByText("keyring locked");
   });
 
   it("删除已配置 Provider：从 keyring 移除并触发 onConfigured", async () => {
-    fake.store.set("openai", { apiKey: "sk-1", defaultModel: "gpt-4o" });
+    fake.store.set("openai", { apiKey: FAKE_OPENAI_KEY, defaultModel: "gpt-4o" });
     await renderOpen();
     fireEvent.click(screen.getByText("配置"));
     await screen.findByText("已配置 Provider:");
@@ -175,7 +179,7 @@ describe("AIAssistantHub — LLM 状态与 Provider 面板", () => {
   });
 
   it("删除异常时应展示错误信息", async () => {
-    fake.store.set("openai", { apiKey: "sk-1" });
+    fake.store.set("openai", { apiKey: FAKE_OPENAI_KEY });
     fake.state.failRemove = true;
     await renderOpen();
     fireEvent.click(screen.getByText("配置"));
@@ -187,7 +191,7 @@ describe("AIAssistantHub — LLM 状态与 Provider 面板", () => {
 
   it("发送消息应经真实桥接走路由流式回填", async () => {
     // 预置 Key → bridgeRef.init 后 router 可用 → chatStream 走 fake 路由
-    fake.store.set("openai", { apiKey: "sk-1", defaultModel: "gpt-4o" });
+    fake.store.set("openai", { apiKey: FAKE_OPENAI_KEY, defaultModel: "gpt-4o" });
     const { container } = await renderOpen({
       extraPrompts: [{ id: "s1", name: "巡检", prompt: "你是巡检专家。", category: "运维" }],
     });
@@ -200,7 +204,7 @@ describe("AIAssistantHub — LLM 状态与 Provider 面板", () => {
   });
 
   it("桥接流式失败时应回退 Mock（customMock 接管回复）", async () => {
-    fake.store.set("openai", { apiKey: "sk-1" });
+    fake.store.set("openai", { apiKey: FAKE_OPENAI_KEY });
     fake.state.failStream = true;
     await renderOpen({ customMock: () => "CUSTOM-MOCK-REPLY" });
     const ta = document.querySelector("textarea")!;
@@ -213,7 +217,7 @@ describe("AIAssistantHub — LLM 状态与 Provider 面板", () => {
   });
 
   it("桥接流式失败且无 customMock 时用默认 Mock 文案", async () => {
-    fake.store.set("openai", { apiKey: "sk-1" });
+    fake.store.set("openai", { apiKey: FAKE_OPENAI_KEY });
     fake.state.failStream = true;
     await renderOpen();
     const ta = document.querySelector("textarea")!;

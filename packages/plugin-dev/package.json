@@ -1,7 +1,14 @@
 {
   "name": "@yyc3/plugin-dev",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "开发工具 — 设计系统/终端/IDE",
+  "author": "YYC³ · YanYuCloudCube",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev.git",
+    "directory": "packages/plugin-dev"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

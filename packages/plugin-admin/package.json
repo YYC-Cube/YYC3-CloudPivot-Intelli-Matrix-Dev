@@ -1,7 +1,14 @@
 {
   "name": "@yyc3/plugin-admin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "系统管理 — 设置/用户/安全",
+  "author": "YYC³ · YanYuCloudCube",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev.git",
+    "directory": "packages/plugin-admin"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

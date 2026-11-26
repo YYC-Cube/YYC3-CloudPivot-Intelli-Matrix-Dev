@@ -1,7 +1,14 @@
 {
   "name": "@yyc3/plugin-monitor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "监控中心 — 数据监控/告警/巡查",
+  "author": "YYC³ · YanYuCloudCube",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev.git",
+    "directory": "packages/plugin-monitor"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

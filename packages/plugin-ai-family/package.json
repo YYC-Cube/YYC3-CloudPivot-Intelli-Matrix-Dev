@@ -1,7 +1,14 @@
 {
   "name": "@yyc3/plugin-ai-family",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "AI Family 子系统 — 中枢协同核心（从 @yyc3/family-core 读取家族宪章唯一真相源）",
+  "author": "YYC³ · YanYuCloudCube",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev.git",
+    "directory": "packages/plugin-ai-family"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

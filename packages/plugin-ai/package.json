@@ -1,7 +1,14 @@
 {
   "name": "@yyc3/plugin-ai",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "AI 智能 — 决策/模型/诊断",
+  "author": "YYC³ · YanYuCloudCube",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev.git",
+    "directory": "packages/plugin-ai"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { createSystemStorage, StorageKeys } from "../storage";
 
 describe("createSystemStorage", () => {
@@ -45,6 +45,28 @@ describe("createSystemStorage", () => {
     b.set("key", "business");
     expect(a.get("key")).toBe("family");
     expect(b.get("key")).toBe("business");
+  });
+
+  it("存储值损坏时应回退 fallback", () => {
+    const store = createSystemStorage("corrupt");
+    localStorage.setItem("yyc3:corrupt:key", "{not valid json");
+    expect(store.get("key", "safe-default")).toBe("safe-default");
+    expect(store.get<number>("corrupt-num", 0)).toBe(0);
+  });
+
+  it("写入配额超限时应静默失败", () => {
+    const failing = {
+      getItem: () => null,
+      setItem: () => { throw new Error("QuotaExceededError"); },
+      removeItem: () => { },
+      clear: () => { },
+      length: 0,
+      key: () => null,
+    };
+    vi.stubGlobal("localStorage", failing);
+    const store = createSystemStorage("quota");
+    expect(() => store.set("key", "value")).not.toThrow();
+    vi.unstubAllGlobals();
   });
 
   it("StorageKeys 常量应正确", () => {

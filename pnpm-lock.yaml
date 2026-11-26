@@ -560,6 +560,10 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.7
+    devDependencies:
+      tsup:
+        specifier: ^8.3.0
+        version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
 
   packages/plugin-ai:
     dependencies:
@@ -572,6 +576,10 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.7
+    devDependencies:
+      tsup:
+        specifier: ^8.3.0
+        version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
 
   packages/plugin-ai-family:
     dependencies:
@@ -627,6 +635,10 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.7
+    devDependencies:
+      tsup:
+        specifier: ^8.3.0
+        version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
 
   packages/plugin-llm:
     dependencies:
@@ -657,6 +669,10 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.7
+    devDependencies:
+      tsup:
+        specifier: ^8.3.0
+        version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
 
   packages/plugin-ops:
     dependencies:
@@ -669,6 +685,10 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.7
+    devDependencies:
+      tsup:
+        specifier: ^8.3.0
+        version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
 
   packages/plugin-prompt:
     dependencies:

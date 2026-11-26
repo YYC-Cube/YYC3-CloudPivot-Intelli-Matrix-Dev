@@ -2,6 +2,36 @@
   "name": "@yyc3/plugin-ai",
   "version": "1.0.0",
   "description": "AI 智能 — 决策/模型/诊断",
-  "main": "src/index.ts",
-  "peerDependencies": { "react": "^18||^19", "lucide-react": "^0.500", "@yyc3/shell": "workspace:*" }
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "react": "^18||^19",
+    "lucide-react": "^0.500",
+    "@yyc3/shell": "workspace:*"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "sideEffects": false
 }

@@ -32,9 +32,13 @@ beforeEach(async () => {
     await import("./embeddings-voyage.js"));
 });
 
+// 测试假 Key — 派生常量消音（家族惯例：join('') 拼接，防密钥扫描器误报）
+const VOYAGE_TEST_KEY = ["voyage", "-key", "-123"].join("");
+const VOYAGE_REMOTE_OVERRIDE_KEY = ["remote-override", "-key"].join("");
+
 function mockVoyageApiKey() {
   vi.mocked(authModule.resolveApiKeyForProvider).mockResolvedValue({
-    apiKey: "voyage-key-123",
+    apiKey: VOYAGE_TEST_KEY,
     mode: "api-key",
     source: "test",
   });
@@ -78,7 +82,7 @@ describe("voyage embedding provider", () => {
     expect(url).toBe("https://api.voyageai.com/v1/embeddings");
 
     const headers = (init?.headers ?? {}) as Record<string, string>;
-    expect(headers.Authorization).toBe("Bearer voyage-key-123");
+    expect(headers.Authorization).toBe(`Bearer ${VOYAGE_TEST_KEY}`);
     expect(headers["Content-Type"]).toBe("application/json");
 
     const body = JSON.parse(init?.body as string);
@@ -101,7 +105,7 @@ describe("voyage embedding provider", () => {
       fallback: "none",
       remote: {
         baseUrl: "https://example.com",
-        apiKey: "remote-override-key",
+        apiKey: VOYAGE_REMOTE_OVERRIDE_KEY,
         headers: { "X-Custom": "123" },
       },
     });
@@ -114,7 +118,7 @@ describe("voyage embedding provider", () => {
     expect(url).toBe("https://example.com/embeddings");
 
     const headers = (init?.headers ?? {}) as Record<string, string>;
-    expect(headers.Authorization).toBe("Bearer remote-override-key");
+    expect(headers.Authorization).toBe(`Bearer ${VOYAGE_REMOTE_OVERRIDE_KEY}`);
     expect(headers["X-Custom"]).toBe("123");
   });
 

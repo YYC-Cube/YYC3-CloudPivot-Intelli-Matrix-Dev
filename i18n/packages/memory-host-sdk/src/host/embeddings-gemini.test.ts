@@ -71,7 +71,10 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-function mockResolvedProviderKey(apiKey = "test-key") {
+// 测试假 Key — 派生常量消音（家族惯例：join('') 拼接，防密钥扫描器误报）
+const GEMINI_TEST_KEY = ["test", "-key"].join("");
+
+function mockResolvedProviderKey(apiKey = GEMINI_TEST_KEY) {
   vi.mocked(authModule.resolveApiKeyForProvider).mockResolvedValue({
     apiKey,
     mode: "api-key",

@@ -24,7 +24,7 @@
   "peerDependencies": {
     "react": "^18||^19",
     "lucide-react": "^0.500",
-    "@yyc3/shell": "workspace:*"
+    "@yyc3/shell": "^1.1.0"
   },
   "devDependencies": {
     "tsup": "^8.3.0"

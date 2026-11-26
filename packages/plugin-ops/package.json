@@ -1,7 +1,14 @@
 {
   "name": "@yyc3/plugin-ops",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "运维管理 — 操作中心/文件/数据库",
+  "author": "YYC³ · YanYuCloudCube",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YYC-Cube/YYC3-CloudPivot-Intelli-Matrix-Dev.git",
+    "directory": "packages/plugin-ops"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

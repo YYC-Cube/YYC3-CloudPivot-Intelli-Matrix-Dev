@@ -1,6 +1,6 @@
 {
   "name": "@yyc3/shell",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "YYC³ 系统外壳 — 事件总线 + 存储 + 欢迎页 + LLM 桥接",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -25,15 +25,10 @@
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "lucide-react": "^0.500.0",
-    "react-router-dom": "^7.0.0",
-    "@yyc3/plugin-llm": "workspace:*"
-  },
-  "peerDependenciesMeta": {
-    "@yyc3/plugin-llm": {
-      "optional": true
-    }
+    "react-router-dom": "^7.0.0"
   },
   "devDependencies": {
+    "@yyc3/plugin-llm": "workspace:*",
     "tsup": "^8.3.0",
     "typescript": "^5.9.0"
   },

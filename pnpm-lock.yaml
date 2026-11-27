@@ -586,9 +586,6 @@ importers:
 
   packages/plugin-ai-family:
     dependencies:
-      '@yyc3/family-core':
-        specifier: workspace:*
-        version: link:../../docs/packages/family-core
       '@yyc3/shell':
         specifier: ^1.1.0
         version: 1.1.0(lucide-react@0.500.0(react@19.2.7))(react-router-dom@7.18.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react@19.2.7)
@@ -599,6 +596,9 @@ importers:
         specifier: ^19.0.0
         version: 19.2.7
     devDependencies:
+      '@yyc3/family-core':
+        specifier: workspace:*
+        version: link:../../docs/packages/family-core
       tsup:
         specifier: ^8.3.0
         version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
@@ -719,9 +719,6 @@ importers:
 
   packages/shell:
     dependencies:
-      '@yyc3/plugin-llm':
-        specifier: workspace:*
-        version: link:../plugin-llm
       lucide-react:
         specifier: ^0.500.0
         version: 0.500.0(react@19.2.7)
@@ -732,6 +729,9 @@ importers:
         specifier: ^7.18.2
         version: 7.18.4(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
     devDependencies:
+      '@yyc3/plugin-llm':
+        specifier: workspace:*
+        version: link:../plugin-llm
       tsup:
         specifier: ^8.3.0
         version: 8.5.1(@swc/core@1.15.46)(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@5.9.3)
